@@ -1,5 +1,51 @@
 import { TbxMatSeverityLevel } from '../enums/severity-level.enum';
 
+/**
+ * CSS class name that flips severity tokens to their inverted variants
+ *
+ * @remarks
+ * When applied to an element (typically `<html>`, but any ancestor of the
+ * severity-styled content), the shared SCSS partial
+ * `@teqbench/tbx-mat-severity-theme/styles/tbx-mat-severity-theme` rewrites
+ * the six `--tbx-mat-severity-<level>-*` custom properties so background and
+ * text colors swap. Use this constant instead of hardcoding the class literal
+ * when binding manually (e.g., on a component host) or when calling
+ * `classList.toggle()` in application code.
+ *
+ * The `provideTbxMatSeverityTheme()` helper applies this class to
+ * `document.documentElement` automatically when `applyToRoot` is left at its
+ * default of `true`.
+ *
+ * @usage
+ * Bind on a component host for scoped inversion, or toggle manually in
+ * imperative code that does not use `provideTbxMatSeverityTheme()`.
+ *
+ * @example
+ * ```typescript
+ * import { TBX_MAT_SEVERITY_INVERTED_CLASS } from '@teqbench/tbx-mat-severity-theme';
+ *
+ * @Component({
+ *     selector: 'app-invertable-panel',
+ *     host: { '[class]': 'inverted() ? invertedClass : null' },
+ *     // ...
+ * })
+ * export class InvertablePanelComponent {
+ *     readonly invertedClass = TBX_MAT_SEVERITY_INVERTED_CLASS;
+ *     readonly inverted = input(false);
+ * }
+ * ```
+ *
+ * @category Constants
+ * @displayName Severity Inverted Class
+ * @order 3
+ * @since 1.0.0
+ * @related provideTbxMatSeverityTheme
+ * @related TBX_MAT_SEVERITY_THEME_CONFIG
+ *
+ * @public
+ */
+export const TBX_MAT_SEVERITY_INVERTED_CLASS = 'tbx-mat-severity-inverted';
+
 // ─── Default SVG Icon Markup ────────────────────────────────────────────────
 // Inline SVG markup shipped as the package defaults for each TbxMatSeverityLevel.
 // Consumers extending TbxMatSeveritySvgIconService register these via
