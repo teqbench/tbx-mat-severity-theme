@@ -1,13 +1,29 @@
 /**
- * TODO: Describe what this package provides and its primary use case.
+ * Severity-level icon resolution for {@link https://material.angular.io | Angular Material} projects
  *
  * @remarks
- * TODO: Extended description of the package entry point.
+ * Provides abstract font-icon and SVG-icon base classes that implement a six-tier
+ * severity contract ({@link TbxMatSeverityResolver}). Both service classes delegate
+ * each severity method to the inherited `resolve()` from `@teqbench/tbx-mat-icons`.
+ * Downstream packages extend the appropriate class and override `initialize()` to
+ * register icon mappings.
  *
- * @see {@link greet}
+ * Key exports:
+ *
+ * - {@link TbxMatSeverityResolver} — Contract defining the six severity methods.
+ * - {@link TbxMatSeverityLevel} — Enum of the six severity levels.
+ * - {@link TbxMatSeverityFontIconService} — Abstract font-icon base with severity resolution.
+ * - {@link TbxMatSeveritySvgIconService} — Abstract SVG-icon base with severity resolution.
  *
  * @packageDocumentation
  */
 
-// Utilities
-export { greet } from './greet';
+// Contract
+export type { TbxMatSeverityResolver } from './contracts/severity-resolver.contract';
+
+// Enums
+export { TbxMatSeverityLevel } from './enums/severity-level.enum';
+
+// Services
+export { TbxMatSeverityFontIconService } from './services/severity-font-icon.service';
+export { TbxMatSeveritySvgIconService } from './services/severity-svg-icon.service';

@@ -1,0 +1,16 @@
+# Short, scannable feature bullets rendered in the README "At a glance" section.
+# Each entry: one short noun phrase, one-line explanation.
+- name: Six-tier severity contract
+  summary: TbxMatSeverityResolver fixes exactly six methods — default, success, error, warning, information, help — so every implementer handles the same tiers consistently.
+- name: Two abstract strategy bases
+  summary: TbxMatSeverityFontIconService and TbxMatSeveritySvgIconService implement the contract for font and SVG rendering respectively.
+- name: Typed-enum/method agreement
+  summary: TbxMatSeverityLevel enum values match the method names exactly — call resolve(level) or the named method, same result.
+- name: Strategy-agnostic substitution
+  summary: Any implementation of TbxMatSeverityResolver is drop-in interchangeable with another regardless of rendering strategy.
+- name: Default tier as first-class peer
+  summary: The default severity represents no classification and is handled with the same consistency as success, error, warning, information, and help.
+- name: Built on tbx-mat-icons
+  summary: Inherits registration, resolution, and fontSet cascade mechanics from the foundational icon service contracts.
+- name: Icon-data-agnostic
+  summary: Ships abstract classes and a contract, not icons — downstream packages choose and register their own icon mappings.

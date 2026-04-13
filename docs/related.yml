@@ -1,0 +1,21 @@
+# Related @teqbench packages rendered in the README "Related packages" section
+# and on the website's Resources tab.
+#
+# Entries may include an optional `direction` field ("upstream" | "downstream")
+# so renderers can group them:
+#   - upstream   — this package depends on the referenced one
+#   - downstream — the referenced package depends on this one
+#
+# Entries without a direction render as unclassified peers.
+- name: "@teqbench/tbx-mat-icons"
+  url: https://github.com/teqbench/tbx-mat-icons
+  summary: Foundational abstract icon service contracts this package extends for severity-leveled resolution.
+  direction: upstream
+- name: "@teqbench/tbx-mat-banners"
+  url: https://github.com/teqbench/tbx-mat-banners
+  summary: Banner component and service consuming severity icons through this package's abstract services.
+  direction: downstream
+- name: "@teqbench/tbx-mat-notifications"
+  url: https://github.com/teqbench/tbx-mat-notifications
+  summary: Notification service consuming severity icons through this package's abstract services.
+  direction: downstream

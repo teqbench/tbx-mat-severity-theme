@@ -1,0 +1,15 @@
+# Glossary rendered in the README "Concepts" section. Term -> one-line definition.
+- term: Severity level
+  definition: A classification of a user-facing message into one of six tiers — default, success, error, warning, information, or help — that drives icon and color choices.
+- term: Severity tier
+  definition: A single level within the severity classification; there are exactly six and the set is closed by design.
+- term: Default tier
+  definition: The severity value representing no classification — used when the message shouldn't assert success, error, or any other semantic category.
+- term: Severity resolver contract
+  definition: The TbxMatSeverityResolver interface pinning down exactly the six severity methods that every severity-aware icon service must implement.
+- term: Enum/method agreement
+  definition: The intentional redundancy where TbxMatSeverityLevel enum values match the corresponding method names on TbxMatSeverityResolver character-for-character.
+- term: Strategy-agnostic substitution
+  definition: The ability to swap one severity icon service for another (font-based for SVG-based, or custom for default) without any callsite change because both honor the same contract.
+- term: Downstream icon registration
+  definition: The pattern where a consuming package subclasses a severity icon service and overrides initialize() to register its own icon choices.
