@@ -2,15 +2,12 @@
 
 **Full name:** TeqBench Package - Claude Code Workflow
 **File:** `.github/workflows/claude.yml`
-**Implementation:** Thin caller delegating to [`teqbench/.github/.github/workflows/claude.yml` ↗](https://github.com/teqbench/.github/blob/main/.github/workflows/claude.yml)
 
 ---
 
 ## Purpose
 
 The [Claude Code ↗](https://github.com/anthropics/claude-code) workflow provides AI-powered assistance directly in GitHub issues and pull requests. When a user mentions `@claude` in a comment or issue body, Claude reads the codebase, analyzes the request, and can implement features, fix bugs, review code, or create pull requests — all within the GitHub UI.
-
-> **Note:** The local `.yml` file is a thin caller. Event triggers and `@claude` filters live here (reusable workflows only support `workflow_call` triggers). All implementation details below describe the org-wide reusable workflow in `teqbench/.github`. Refer to that repository for the authoritative source.
 
 ---
 
@@ -31,7 +28,23 @@ group: claude-${{ github.event.issue.number || github.event.pull_request.number 
 cancel-in-progress: false
 ```
 
-Per-issue/PR concurrency: only one Claude run per issue or PR at a time.
+Per-issue/PR concurrency: only one Claude run per issue or PR at a time. Uses its own group (not shared with CI/Release/Sync) so Claude runs aren't blocked by or block other workflows.
+
+---
+
+## Permissions
+
+```yaml
+permissions: {}
+
+jobs:
+    claude:
+        permissions:
+            contents: write # Read/edit/create files, push commits
+            pull-requests: write # Create and update PRs
+            issues: write # Comment on issues
+            id-token: write # Required by the Claude Code action
+```
 
 ---
 
@@ -43,30 +56,124 @@ Per-issue/PR concurrency: only one Claude run per issue or PR at a time.
 | `APP_PRIVATE_KEY`   | GitHub App private key                   |
 | `ANTHROPIC_API_KEY` | Authenticates with the Anthropic API     |
 
+The app token is used for checkout with submodules ([Claude Code ↗](https://github.com/anthropics/claude-code) skills) and for full repository access.
+
 ---
 
-## Behavior
+## Job: `claude` (Claude Code)
 
-The reusable workflow:
+### Condition
 
-1. Generates an app token for checkout with submodules ([Claude Code ↗](https://github.com/anthropics/claude-code) skills).
-2. Checks out with full history and submodules.
-3. Runs [Claude Code ↗](https://github.com/anthropics/claude-code) via `anthropics/claude-code-action@v1` with restricted tool access.
+```yaml
+if: |
+    (github.event_name == 'issue_comment' && contains(github.event.comment.body, '@claude')) ||
+    (github.event_name == 'pull_request_review_comment' && contains(github.event.comment.body, '@claude')) ||
+    (github.event_name == 'issues' && contains(github.event.issue.body, '@claude'))
+```
 
-### Tool Restrictions
+Only runs when `@claude` is explicitly mentioned.
 
-Claude's capabilities are explicitly restricted via `--allowedTools`:
+### Timeout
 
-- **File tools:** View, Edit, Write, GlobTool, GrepTool, BatchTool
-- **Git:** `git status`, `git diff`, `git log`, `git branch`, `git show`, `git checkout`, `git add`, `git commit`, `git push origin`
-- **npm:** `npm run`, `npm ci`, `npx`
-- **Excluded:** `git push --force`, `git reset`, `git rebase`, `git branch -D`, arbitrary bash commands
+```yaml
+timeout-minutes: 30
+```
+
+### Step-by-Step Walkthrough
+
+#### 1. Generate App Token
+
+Uses `actions/create-github-app-token@v3` with `owner: teqbench` scope to generate a token that can access the skills submodule across the organization.
+
+#### 2. Checkout Code
+
+```yaml
+uses: actions/checkout@v4
+with:
+    submodules: true
+    token: ${{ steps.app-token.outputs.token }}
+    fetch-depth: 0
+```
+
+Full history checkout with submodules so Claude has access to the skills definitions and can inspect git log, diff against branches, etc.
+
+#### 3. Run Claude Code
+
+```yaml
+uses: anthropics/claude-code-action@v1
+with:
+    anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
+    claude_args: >-
+        --max-turns 10
+        --allowedTools
+        "View,Edit,Write,GlobTool,GrepTool,BatchTool,
+         Bash(git status:*),Bash(git diff:*),Bash(git log:*),
+         Bash(git branch:*),Bash(git show:*),Bash(git checkout:*),
+         Bash(git add:*),Bash(git commit:*),Bash(git push origin:*),
+         Bash(npm run:*),Bash(npm ci:*),Bash(npx:*)"
+```
+
+---
+
+## Tool Restrictions
+
+Claude's capabilities are explicitly restricted via `--allowedTools` to prevent unsafe operations:
+
+### File Tools (Built-in)
+
+| Tool        | Purpose               |
+| ----------- | --------------------- |
+| `View`      | Read file contents    |
+| `Edit`      | Modify existing files |
+| `Write`     | Create new files      |
+| `GlobTool`  | Find files by pattern |
+| `GrepTool`  | Search file contents  |
+| `BatchTool` | Batch file operations |
+
+### Git Commands (Via Bash Allowlist)
+
+| Allowed           | Purpose                  |
+| ----------------- | ------------------------ |
+| `git status`      | Check working tree state |
+| `git diff`        | View changes             |
+| `git log`         | Browse commit history    |
+| `git branch`      | List/create branches     |
+| `git show`        | Inspect commits          |
+| `git checkout`    | Switch branches          |
+| `git add`         | Stage changes            |
+| `git commit`      | Create commits           |
+| `git push origin` | Push to remote           |
+
+| Explicitly Excluded       | Reason                                     |
+| ------------------------- | ------------------------------------------ |
+| `git push --force`        | Destructive — rewrites history             |
+| `git reset`               | Destructive — can lose commits             |
+| `git rebase`              | Can rewrite history                        |
+| `git branch -D`           | Destructive — deletes branches             |
+| Arbitrary `bash` commands | Security — prevents uncontrolled execution |
+
+### npm Commands (Via Bash Allowlist)
+
+| Allowed   | Purpose                                 |
+| --------- | --------------------------------------- |
+| `npm run` | Run project scripts (test, lint, build) |
+| `npm ci`  | Install dependencies                    |
+| `npx`     | Run Node.js binaries                    |
 
 ---
 
 ## CLAUDE.md
 
-Claude reads the `CLAUDE.md` file in the repo root for project-specific context. Both the GitHub Action and the [Claude Code ↗](https://github.com/anthropics/claude-code) CLI read the same `CLAUDE.md`, ensuring consistent behavior across local and CI environments.
+Claude reads the `CLAUDE.md` file in the repo root for project-specific context. This file defines:
+
+- Tech stack and framework versions
+- Key commands
+- Project structure and publishing details
+- Commit conventions
+- Branching rules and workflow expectations
+- Explicit do's and don'ts for Claude's behavior
+
+Both the GitHub Action and the [Claude Code ↗](https://github.com/anthropics/claude-code) CLI read the same `CLAUDE.md`, ensuring consistent behavior across local and CI environments.
 
 ---
 
@@ -87,7 +194,7 @@ Claude will:
 2. Create a feature or bugfix branch off `dev`
 3. Implement the requested changes
 4. Run tests and lint to verify
-5. Commit with [Conventional Commits ↗](https://www.conventionalcommits.org) messages
+5. Commit with conventional commit messages
 6. Push and create a PR targeting `dev`
 
 ---
