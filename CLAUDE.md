@@ -4,13 +4,13 @@ This file provides guidance for [Claude Code ↗](https://github.com/anthropics/
 
 ## Package Overview
 
-<!-- TODO: Describe what this package does and its primary use case -->
+Severity-level icon resolution for [Angular Material ↗](https://material.angular.io). Provides `TbxMatSeverityLevel` (an enum of six severity levels), `TbxMatSeverityFontIconService` and `TbxMatSeveritySvgIconService` (abstract classes extending the respective base from `@teqbench/tbx-mat-icons`), and `TbxMatSeverityResolver` (the six severity method contract). Downstream packages override `initialize()` to register icon mappings.
 
-This is a `@teqbench` [npm ↗](https://www.npmjs.com) package built with [TypeScript ↗](https://www.typescriptlang.org).
+This is a `@teqbench` [Angular ↗](https://angular.dev) package (`tbx-mat-*`) built with [TypeScript ↗](https://www.typescriptlang.org) and [ng-packagr ↗](https://github.com/ng-packagr/ng-packagr).
 
 ## Tech Stack
 
-- **Language:** [TypeScript ↗](https://www.typescriptlang.org) 5.9+ (strict mode, ES2022 target, bundler module resolution)
+- **Language:** [TypeScript ↗](https://www.typescriptlang.org) 5.9+ (strict mode, [ES2022 ↗](https://262.ecma-international.org/13.0/) target, bundler module resolution)
 - **Testing:** [Vitest ↗](https://vitest.dev) (globals enabled)
 - **Linting:** [ESLint ↗](https://eslint.org) flat config with [typescript-eslint ↗](https://typescript-eslint.io)
 - **Formatting:** [Prettier ↗](https://prettier.io) (enforced via pre-commit hook and CI)
@@ -35,13 +35,13 @@ This is a `@teqbench` [npm ↗](https://www.npmjs.com) package built with [TypeS
 - `src/index.ts` — Barrel file (public API exports)
 - `dist/` — Compiled output (git-ignored, only this directory is published)
 - `docs/` — Documentation (placeholder for package-specific guides)
-- `.github/workflows/` — Thin callers delegating to org-wide reusable workflows in `teqbench/.github`
+- `.github/workflows/` — CI/CD pipelines (ci, release, sync, dep-compat-check, claude)
 
 ## Publishing
 
 - Packages are published to [GitHub Packages ↗](https://github.com/orgs/teqbench/packages) (`@teqbench` scope) via the release workflow.
 - Coverage thresholds are enforced in CI: 80% lines/functions/statements, 75% branches, per file. Lines guarded by `/* v8 ignore next */` are excluded from [V8 ↗](https://v8.dev) coverage collection (used by [Vitest ↗](https://vitest.dev)). This pragma marks code that is unreachable in the test environment (e.g., SSR `window` guards).
-- **Build tooling:** [ng-packagr ↗](https://github.com/ng-packagr/ng-packagr) is used to build [Angular ↗](https://angular.dev) Package Format (APF) output. It uses bundler module resolution internally, so source files use extensionless relative imports (e.g., `'./foo.service'`). The `ng-package.json` at the repo root configures the entry point and output directory. [ng-packagr ↗](https://github.com/ng-packagr/ng-packagr) generates its own `package.json` inside `dist/` with the correct APF entry points (`fesm2022/`, etc.). The release workflow publishes from `dist/` directly (`npm publish ./dist`), so consumers resolve against [ng-packagr ↗](https://github.com/ng-packagr/ng-packagr)'s generated `package.json`. The root `package.json` does not need `main`, `types`, or `exports` fields.
+- **Build tooling:** [ng-packagr ↗](https://github.com/ng-packagr/ng-packagr) is used to build [Angular Package Format ↗](https://docs.google.com/document/d/1CZC2rcpxffTDfRDs6p1cfbmKNLA6x5O-NtkJglDaBVs/edit) (APF) output. It uses bundler module resolution internally, so source files use extensionless relative imports (e.g., `'./foo.service'`). The `ng-package.json` at the repo root configures the entry point and output directory. [ng-packagr ↗](https://github.com/ng-packagr/ng-packagr) generates its own `package.json` inside `dist/` with the correct APF entry points (`fesm2022/`, etc.). The release workflow publishes from `dist/` directly (`npm publish ./dist`), so consumers resolve against [ng-packagr ↗](https://github.com/ng-packagr/ng-packagr)'s generated `package.json`. The root `package.json` does not need `main`, `types`, or `exports` fields.
 
 ## TSDoc Convention
 
@@ -61,11 +61,11 @@ All exported [TypeScript ↗](https://www.typescriptlang.org) declarations must 
 
 ### Custom Tags
 
-- `@category` — Group exports by domain for navigation and table-of-contents generation (e.g., "Models", "Services", "Utilities", "Pipes", "Guards"). Repeatable — an export can belong to multiple categories (e.g., "Models", "Foundational", "Contract").
+- `@category` — Group exports by domain for navigation and table-of-contents generation (e.g., "Models", "Services", "Utilities", "Pipes", "Guards"). Repeatable — an export can belong to multiple categories (e.g., "Models", "Foundational", "Interface").
 - `@since` — The package version when the export was first introduced (e.g., "1.0.0"). Allows the docs generator to render version badges and filter by release.
 - `@related` — Cross-reference to a related export, optionally in another `@teqbench` package (e.g., "TbxAuthService" or "@teqbench/tbx-auth#TbxAuthService"). Repeatable — use one `@related` tag per reference.
 - `@usage` — Prose description of when and why to use this export, distinct from `@example` which shows code. Helps the AI generator produce contextual KB articles rather than raw API listings.
-- `@displayName` — Human-friendly label used as the heading in generated docs (e.g., "Base Model" for `TbxModel`). When omitted, the export name is used as-is.
+- `@displayName` — Human-friendly label used as the heading in generated docs (e.g., "Base Domain Entity Model" for `TbxDomainEntityModel`). When omitted, the export name is used as-is.
 - `@order` — Numeric sort hint controlling display sequence. Applied at two levels:
     - Top-level exports: controls display sequence within a `@category` on generated pages.
     - Members (properties, methods): controls display sequence within the parent class/interface page. Members without `@order` are sorted by precedence group (see Member Ordering below), then alphabetically.
@@ -166,7 +166,7 @@ summary line
 
 ### Reference Implementation
 
-`@teqbench/tbx-models` (a separate repository) `src/model.ts` is the reference for a fully migrated [TSDoc ↗](https://tsdoc.org) comment on an interface with member-level docs including `@order` tags. `src/index.ts` in that same package is the reference for a `@packageDocumentation` barrel file [TSDoc ↗](https://tsdoc.org) comment. These files are not accessible from this repository — clone `@teqbench/tbx-models` separately to view them.
+`@teqbench/tbx-models` (a separate repository) `src/models/domain-entity.model.ts` is the reference for a fully migrated [TSDoc ↗](https://tsdoc.org) comment on an interface with member-level docs including `@order` tags. `src/index.ts` in that same package is the reference for a `@packageDocumentation` barrel file [TSDoc ↗](https://tsdoc.org) comment. These files are not accessible from this repository — clone `@teqbench/tbx-models` separately to view them.
 
 ### Verification
 
@@ -179,7 +179,7 @@ Every prose mention of an external specification, standard, or technology in doc
 ### Format
 
 - **Markdown:** `[Name ↗](url)` with the ↗ (U+2197) character inside the link text for external resources. Internal/relative links do not use ↗.
-- **[TSDoc ↗](https://tsdoc.org):** `{@link url | Name}` inline syntax in every section where an external technology appears — summary, `@remarks`, `@usage`, `@param`, `@returns`, and member-level docs. For each distinct external resource referenced in a top-level export's summary, add a `@see {@link url | Name}` tag in the tag section.
+- **TSDoc:** `{@link url | Name}` inline syntax in every section where an external technology appears — summary, `@remarks`, `@usage`, `@param`, `@returns`, and member-level docs. For each distinct external resource referenced in a top-level export's summary, add a `@see {@link url | Name}` tag in the tag section.
 
 ### Rules
 
@@ -195,7 +195,7 @@ Every prose mention of an external specification, standard, or technology in doc
 ### SECURITY.md Reporting Channel
 
 - **Private repository:** Email link (`[info@teqbench.dev](mailto:info@teqbench.dev)`). GitHub Private vulnerability reporting is not available without GitHub Advanced Security.
-- **Public repository:** [GitHub Private vulnerability reporting ↗](https://docs.github.com/en/code-security/security-advisories/guidance-on-reporting-and-writing-information-about-vulnerabilities/privately-reporting-a-security-vulnerability) via `/security/advisories/new`. Enable at the org level if available, otherwise at the repo level.
+- **Public repository:** GitHub Private vulnerability reporting via `/security/advisories/new`. Enable at the org level if available, otherwise at the repo level.
 - When transitioning a repo from private to public, update SECURITY.md to switch from email to the advisory URL.
 
 ### README Requirements
@@ -270,5 +270,3 @@ Follow [**Conventional Commits** ↗](https://www.conventionalcommits.org) stric
 - Never delete branches.
 - Never modify CI workflow files without explicit instruction.
 - Never modify `release-please-config.json`, `.release-please-manifest.json`, or `CHANGELOG.md`.
-
-<!-- TODO: Add package-specific guidance below -->

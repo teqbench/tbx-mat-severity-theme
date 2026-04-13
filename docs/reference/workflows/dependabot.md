@@ -1,14 +1,12 @@
-# Dependabot Configuration
+# Dependabot — `dependabot.yml`
 
-**Configuration:** Managed at the org level in [`teqbench/.github` ↗](https://github.com/teqbench/.github)
+**File:** `.github/dependabot.yml` (this file is not present in all repositories — it is added during repository setup from the org template)
 
 ---
 
 ## Purpose
 
-Automatically opens pull requests to update dependencies on a weekly schedule. PRs target the `dev` branch (not `main`) and use [Conventional Commits ↗](https://www.conventionalcommits.org) message prefixes so they integrate cleanly with the [Release Please ↗](https://github.com/googleapis/release-please) workflow.
-
-> **Note:** The [Dependabot ↗](https://docs.github.com/en/code-security/dependabot) configuration file (`dependabot.yml`) is managed at the org level in `teqbench/.github`, not in this repository. The details below describe the org-wide configuration as it applies to this repo.
+Automatically opens pull requests to update dependencies on a weekly schedule. PRs target the `dev` branch (not `main`) and use conventional commit message prefixes so they integrate cleanly with the [Release Please ↗](https://github.com/googleapis/release-please) workflow.
 
 ---
 
@@ -20,7 +18,7 @@ Runs every **Monday**.
 
 ## Target Branch
 
-All [Dependabot ↗](https://docs.github.com/en/code-security/dependabot) PRs target **`dev`**, not `main`.
+All [Dependabot ↗](https://docs.github.com/en/code-security/dependabot) PRs target **`dev`**, not `main`. This ensures dependency updates go through the standard PR review and CI pipeline before reaching production.
 
 ---
 
@@ -55,14 +53,16 @@ Ungrouped packages (e.g., `@types/node`) get individual PRs.
 | Commit prefix     | `chore(ci):`         |
 | Labels            | `dependencies`, `ci` |
 
+Updates action versions used in all workflow files (e.g., `actions/checkout@v4` to `@v5`).
+
 ---
 
 ## Interaction with Pinned Dependencies
 
-Some dependencies are intentionally pinned without caret ranges (see the custom `devDependenciesPinned` field in `package.json` — not part of the [npm ↗](https://www.npmjs.com) spec, used for documentation only):
+Some dependencies are intentionally pinned without caret ranges (see `devDependenciesPinned`, a custom metadata field not part of the [npm ↗](https://www.npmjs.com) spec, in `package.json`):
 
 - **`typescript-eslint`** — pinned without `^` because patch releases have introduced breaking rule changes
-- **`@types/node`** — pinned to match the [Node.js ↗](https://nodejs.org) runtime major version
+- **`@types/node`** — pinned to `~24.0.0` to match the [Node.js ↗](https://nodejs.org) 24 runtime
 
 [Dependabot ↗](https://docs.github.com/en/code-security/dependabot) will still open PRs for these packages. Review them carefully and test before merging — the pinning is intentional and documented.
 

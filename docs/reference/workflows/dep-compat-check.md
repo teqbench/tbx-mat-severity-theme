@@ -2,15 +2,12 @@
 
 **Full name:** Dependency Compatibility Check
 **File:** `.github/workflows/dep-compat-check.yml`
-**Implementation:** Thin caller delegating to [`teqbench/.github/.github/workflows/dep-compat-check.yml` ↗](https://github.com/teqbench/.github/blob/main/.github/workflows/dep-compat-check.yml)
 
 ---
 
 ## Purpose
 
 Tracks pinned dependencies that are waiting for a new version — for example, waiting for a package to release a compatible major version before it can be adopted. The workflow checks the [npm ↗](https://www.npmjs.com) registry daily, evaluates resolution conditions, and posts status updates to a tracking issue.
-
-> **Note:** The local `.yml` file is a thin caller. All implementation details below describe the org-wide reusable workflow in `teqbench/.github`. Refer to that repository for the authoritative source.
 
 ---
 
@@ -23,13 +20,34 @@ Tracks pinned dependencies that are waiting for a new version — for example, w
 
 ---
 
-## Configuration
+## Permissions
 
-The local `.yml` file passes `epic-issue-number` to the reusable workflow. This must be set to the tracking issue number during repository setup (see SETUP.md step 7).
+```yaml
+permissions:
+    issues: write
+```
+
+Only needs write access to issues for posting status comments.
 
 ---
 
-## Issue Metadata Format
+## Secrets Used
+
+| Secret         | Purpose                     |
+| -------------- | --------------------------- |
+| `GITHUB_TOKEN` | Default token for API calls |
+
+No app token needed — this workflow only reads the [npm ↗](https://www.npmjs.com) registry and writes issue comments.
+
+---
+
+## How It Works
+
+### Configuration
+
+The workflow uses a tracking epic issue. The `EPIC` constant in the workflow file must be set to the issue number during repository setup (see SETUP.md step 8 in the template repository — this file is not included in individual repos).
+
+### Issue Metadata Format
 
 Sub-issues of the epic must include a metadata block in their body:
 
@@ -57,11 +75,7 @@ also-track: @angular/cli, @angular/compiler
 | `semver-major:<number>` | Resolved when latest major >= target. Status: Resolved or Blocked     |
 | `manual` (or omitted)   | Always shows as Action Needed — requires manual evaluation            |
 
----
-
-## Behavior
-
-The reusable workflow:
+### Evaluation Flow
 
 1. Finds open issues with `Part of #<EPIC>` and `<!-- dep-compat ... -->` metadata.
 2. For each, queries the [npm ↗](https://www.npmjs.com) registry for the latest version.
@@ -80,6 +94,21 @@ The reusable workflow:
 
 ---
 
+## Example Status Comment
+
+```
+## Dependency Compatibility — 2026-03-22
+
+1/2 resolved. 1 item(s) still need attention.
+
+| Item | Status | Detail |
+|---|---|---|
+| Angular 22 upgrade (#3) | Resolved | `@angular/core`: 22.0.1 — **v22 available!** Ready for integration. |
+| ESLint flat config (#5) | Blocked | `eslint`: 9.39.2 (need >= 10.0.0 ✗) |
+```
+
+---
+
 ## Noise Reduction
 
 The workflow only posts a comment when:
@@ -87,3 +116,5 @@ The workflow only posts a comment when:
 - **Version change detected** — at least one tracked package has a different version than the last check
 - **Monday** — weekly summary regardless of changes
 - **Manual trigger** — always posts when run via `workflow_dispatch`
+
+This prevents daily noise while ensuring changes are reported promptly.

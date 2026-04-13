@@ -1,0 +1,98 @@
+/* ━━━ Severity Color Tokens ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ *
+ * Neutral severity color tokens consumed by @teqbench Material severity-based
+ * packages (tbx-mat-notifications, tbx-mat-banners, tbx-mat-dialogs, and any
+ * additional severity-leveled UI packages).
+ *
+ * Six levels total: default, success, error, warning, information, help.
+ * The "default" level is theme-responsive — its tokens alias the Material
+ * system color tokens (--mat-sys-inverse-surface / --mat-sys-inverse-on-surface
+ * by default, flipping to --mat-sys-surface / --mat-sys-on-surface when
+ * inverted). The other five levels use fixed brand-conventional colors.
+ *
+ * Default variant: colored background, white text — conventional UX.
+ * Inverted variant: white background, colored text — enabled by adding
+ * the .tbx-mat-severity-inverted class on an ancestor (typically <html>
+ * or a component host).
+ *
+ * Colors are intentionally NOT tied to --mat-sys-* palette tokens because
+ * severity colors must be immediately recognizable regardless of theme.
+ * A purple-themed app still needs red errors and green successes.
+ *
+ * Consumers reference these via var(--tbx-mat-severity-<level>-<background|text>)
+ * directly, or call the tbx-mat-severity-theme($prefix) mixin to remap them
+ * onto a package-local prefix (e.g. --tbx-mat-notification-*).
+ *
+ * Overrides target the same CSS variables on html[data-theme="id"] or
+ * similar theme scopes in the consuming application's stylesheet.
+ * ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+
+$_severity-palette: (
+    success: #2e7d32,
+    error: #c62828,
+    warning: #f9a825,
+    information: #1565c0,
+    help: #1976d2,
+);
+
+$_invert-text: #ffffff;
+
+html {
+    /* Default — theme-responsive; mirrors the Material snackbar defaults */
+    --tbx-mat-severity-default-background: var(--mat-sys-inverse-surface);
+    --tbx-mat-severity-default-text: var(--mat-sys-inverse-on-surface);
+
+    @each $level, $color in $_severity-palette {
+        --tbx-mat-severity-#{$level}-background: #{$color};
+        --tbx-mat-severity-#{$level}-text: #{$_invert-text};
+    }
+}
+
+/* ── Inverted severity ────────────────────────────────────────────────────
+ *
+ * Flips background and text for each severity level. Background becomes
+ * white; text becomes the level's color. Apply the class on <html>, a
+ * component host, or any ancestor to scope inversion.
+ * ──────────────────────────────────────────────────────────────────────── */
+
+.tbx-mat-severity-inverted {
+    /* Default — flip to the standard surface pair (non-inverted theme colors) */
+    --tbx-mat-severity-default-background: var(--mat-sys-surface);
+    --tbx-mat-severity-default-text: var(--mat-sys-on-surface);
+
+    @each $level, $color in $_severity-palette {
+        --tbx-mat-severity-#{$level}-background: #{$_invert-text};
+        --tbx-mat-severity-#{$level}-text: #{$color};
+    }
+}
+
+/* ── Prefix remap mixin ───────────────────────────────────────────────────
+ *
+ * Emits a pair of --<prefix>-<level>-background and --<prefix>-<level>-text
+ * custom properties for each colored severity level, each aliasing the
+ * corresponding --tbx-mat-severity-* token.
+ *
+ * Consumer packages call this with their own prefix so their package-local
+ * tokens remain stable while the underlying values stay centralized here.
+ *
+ * Example:
+ *   @use '@teqbench/tbx-mat-severity-theme/styles/tbx-mat-severity-theme' as severity;
+ *   html {
+ *       @include severity.tbx-mat-severity-theme('tbx-mat-notification');
+ *   }
+ *
+ * Produces:
+ *   --tbx-mat-notification-success-background: var(--tbx-mat-severity-success-background);
+ *   --tbx-mat-notification-success-text:       var(--tbx-mat-severity-success-text);
+ *   ... (same for error, warning, information, help)
+ * ──────────────────────────────────────────────────────────────────────── */
+
+@mixin tbx-mat-severity-theme($prefix) {
+    --#{$prefix}-default-background: var(--tbx-mat-severity-default-background);
+    --#{$prefix}-default-text: var(--tbx-mat-severity-default-text);
+
+    @each $level, $color in $_severity-palette {
+        --#{$prefix}-#{$level}-background: var(--tbx-mat-severity-#{$level}-background);
+        --#{$prefix}-#{$level}-text: var(--tbx-mat-severity-#{$level}-text);
+    }
+}
