@@ -2,7 +2,7 @@
 
 ![Build Status](https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/teqbench-shields-bot/a69600f4ed4ebed89ffb35d808e05eb4/raw/tbx-mat-severity-theme-main-build-status.json) ![Tests](https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/teqbench-shields-bot/a69600f4ed4ebed89ffb35d808e05eb4/raw/tbx-mat-severity-theme-main-tests.json) ![Coverage](https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/teqbench-shields-bot/a69600f4ed4ebed89ffb35d808e05eb4/raw/tbx-mat-severity-theme-main-coverage.json) ![Version](https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/teqbench-shields-bot/a69600f4ed4ebed89ffb35d808e05eb4/raw/tbx-mat-severity-theme-main-version.json) ![Build Number](https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/teqbench-shields-bot/a69600f4ed4ebed89ffb35d808e05eb4/raw/tbx-mat-severity-theme-main-build-number.json)
 
-> Severity-leveled icon resolution for [Angular Material ↗](https://material.angular.dev) — two abstract strategy subclasses (`TbxMatSeverityFontIconService` and `TbxMatSeveritySvgIconService`) built on [`@teqbench/tbx-mat-icons` ↗](https://github.com/teqbench/tbx-mat-icons), implementing a shared six-tier `TbxMatSeverityResolver` contract (default, success, error, warning, information, help) that downstream packages extend to register their icon mappings.
+> Foundation package for severity theming in [Angular Material ↗](https://material.angular.dev) projects. Ships a six-tier severity enum (`default`, `success`, `error`, `warning`, `information`, `help`) and resolver contract, abstract font-icon and SVG-icon base classes built on [`@teqbench/tbx-mat-icons` ↗](https://github.com/teqbench/tbx-mat-icons), default icon sets (SVG markup and Material Symbols ligatures), shared SCSS color tokens with invert support, and an [Angular ↗](https://angular.dev) DI config token plus provider helper — consumed by [`@teqbench/tbx-mat-notifications` ↗](https://github.com/teqbench/tbx-mat-notifications), [`@teqbench/tbx-mat-banners` ↗](https://github.com/teqbench/tbx-mat-banners), [`@teqbench/tbx-mat-dialogs` ↗](https://github.com/teqbench/tbx-mat-dialogs), and any future severity-leveled UI packages.
 
 <details>
 <summary><strong>Table of contents</strong></summary>
@@ -12,6 +12,11 @@
 - [When to use](#when-to-use)
 - [Installation](#installation)
 - [Usage](#usage)
+    - [Font icon subclass](#font-icon-subclass)
+    - [SVG icon subclass](#svg-icon-subclass)
+    - [Default icon sets](#default-icon-sets)
+    - [Shared SCSS color tokens](#shared-scss-color-tokens)
+    - [Runtime theme configuration](#runtime-theme-configuration)
 - [Concepts](#concepts)
 - [API Reference](#api-reference)
 - [Accessibility](#accessibility)
@@ -27,13 +32,18 @@
 
 ## Overview
 
-`@teqbench/tbx-mat-severity-theme` specializes the abstract icon pattern from [`@teqbench/tbx-mat-icons` ↗](https://github.com/teqbench/tbx-mat-icons) for a specific domain: the six severity tiers (`default`, `success`, `error`, `warning`, `information`, `help`) that the TeqBench component family uses to classify every user-facing message. The package doesn't ship icon data — it ships the two abstract service contracts and a strict typed-enum/method agreement that downstream packages extend to register their chosen icon mappings.
+`@teqbench/tbx-mat-severity-theme` centralizes the shared vocabulary, visuals, and runtime wiring that every `@teqbench` severity-leveled [Angular Material ↗](https://material.angular.dev) package ([`@teqbench/tbx-mat-notifications` ↗](https://github.com/teqbench/tbx-mat-notifications), [`@teqbench/tbx-mat-banners` ↗](https://github.com/teqbench/tbx-mat-banners), [`@teqbench/tbx-mat-dialogs` ↗](https://github.com/teqbench/tbx-mat-dialogs), etc.) uses to classify and present messages. Rather than each package re-declaring its own severity enum, color palette, default icons, and invert flag, this foundation package owns them once and the consumer packages depend on it.
 
-The `TbxMatSeverityResolver` contract pins down exactly those six methods — one per severity tier — so any service implementing it can be substituted for another regardless of rendering strategy. Two abstract bases implement the contract: `TbxMatSeverityFontIconService` (extends [`TbxMatFontIconService` ↗](https://github.com/teqbench/tbx-mat-icons)) and `TbxMatSeveritySvgIconService` (extends `TbxMatSvgIconService`). Downstream packages like [`@teqbench/tbx-mat-banners` ↗](https://github.com/teqbench/tbx-mat-banners) and [`@teqbench/tbx-mat-notifications` ↗](https://github.com/teqbench/tbx-mat-notifications) consume either concrete subclass via DI and call `resolve(severityLevel)` to look up the icon identifier for the current severity.
+It provides four layers:
+
+- **Severity contract and enum** — `TbxMatSeverityLevel` (six tiers) and `TbxMatSeverityResolver` (the six-method contract any severity-aware icon service implements).
+- **Abstract icon service bases** — `TbxMatSeverityFontIconService` and `TbxMatSeveritySvgIconService` extend the abstract strategies from [`@teqbench/tbx-mat-icons` ↗](https://github.com/teqbench/tbx-mat-icons) and implement the resolver contract. Downstream packages subclass one and override `initialize()` to register icon mappings.
+- **Default icon sets** — `TBX_MAT_SEVERITY_DEFAULT_SVG_ICONS` (inline SVG markup per level) and `TBX_MAT_SEVERITY_DEFAULT_FONT_LIGATURES` (Material Symbols ligature names per level). Consumers pick them up via `initialize()` rather than re-declaring the same icon data in each package.
+- **Shared theme layer** — an SCSS partial defining neutral `--tbx-mat-severity-<level>-<background|text>` tokens and a `.tbx-mat-severity-inverted` class that swaps them, plus a `TBX_MAT_SEVERITY_THEME_CONFIG` DI token and `provideTbxMatSeverityTheme()` helper that wires the invert flag into the application at bootstrap.
 
 ### Why six severity tiers, not five
 
-The contract includes a `default` method alongside the four classic severities (`success`, `error`, `warning`, `information`) plus `help`. `default` represents "no severity classification" — a message shown with neutral styling when the application doesn't want to assert that it's conveying success, error, etc. Downstream packages surface this as a `default()` method on their service (e.g. `TbxMatBannerService.default(message)`) so the caller doesn't have to pick a severity they don't mean. The contract keeps `default` as a first-class peer so every implementer handles it consistently.
+The contract includes a `default` method alongside the four classic severities (`success`, `error`, `warning`, `information`) plus `help`. `default` represents "no severity classification" — a message shown with neutral styling when the application doesn't want to assert that it's conveying success, error, etc. Downstream packages surface this as a `default()` method on their service (e.g. `TbxMatBannerService.default(message)`) so the caller doesn't have to pick a severity they don't mean.
 
 ### Typed-enum/method agreement
 
@@ -43,35 +53,26 @@ The `TbxMatSeverityLevel` enum's string values exactly match the method names on
 - `TbxMatSeverityLevel.Success` → `'success'` → `resolver.success()`
 - …and so on.
 
-This intentional redundancy lets consumers pick whichever idiom fits their call site: `service.resolve(TbxMatSeverityLevel.Warning)` when they already have an enum value, or `service.warning()` when they know the severity at write time. Both paths produce the same icon identifier, because the enum value doubles as the dispatch key in the base class's `resolve()`.
-
-### Downstream usage pattern
-
-Downstream packages consume this package in a predictable shape:
-
-1. Pick the appropriate abstract base based on rendering strategy (font or SVG).
-2. Subclass it and override `initialize()` to register an icon for each severity via `register(TbxMatSeverityLevel.Success, 'check_circle')` etc.
-3. Register the concrete subclass in the [Angular ↗](https://angular.dev) DI tree.
-4. Inject the service and call `resolve(level)` — or one of the severity-specific methods (`success()`, `error()`, etc.) — to get the icon identifier.
-
-The resulting service is drop-in interchangeable with any other implementation of `TbxMatSeverityResolver`. A banner component that consumes a `TbxMatSeverityResolver` doesn't know or care whether the concrete service renders SVG or font, or which specific icons each severity maps to.
+This intentional redundancy lets consumers pick whichever idiom fits their call site: `service.resolve(TbxMatSeverityLevel.Warning)` when they already have an enum value, or `service.warning()` when they know the severity at write time. Both paths produce the same icon identifier because the enum value doubles as the dispatch key in the base class's `resolve()`.
 
 ## At a glance
 
 - **Six-tier severity contract** — `TbxMatSeverityResolver` fixes exactly six methods (`default`, `success`, `error`, `warning`, `information`, `help`) so every implementer handles the same tiers consistently.
 - **Two abstract strategy bases** — `TbxMatSeverityFontIconService` and `TbxMatSeveritySvgIconService` implement the contract for font and SVG rendering respectively.
-- **Typed-enum/method agreement** — `TbxMatSeverityLevel` enum values match the method names exactly; call `resolve(level)` or the named method and get the same result.
+- **Default icon sets shipped** — `TBX_MAT_SEVERITY_DEFAULT_SVG_ICONS` (CC0 inline SVG markup) and `TBX_MAT_SEVERITY_DEFAULT_FONT_LIGATURES` (Material Symbols ligature names) give consumers turnkey defaults.
+- **Shared SCSS color tokens** — neutral `--tbx-mat-severity-<level>-<background|text>` custom properties defined once, with a prefix-remap mixin for package-local aliases.
+- **Pure-CSS invert support** — a `.tbx-mat-severity-inverted` class flips background and text per level across the entire token set.
+- **DI config + provider helper** — `TBX_MAT_SEVERITY_THEME_CONFIG` and `provideTbxMatSeverityTheme({ invert, applyToRoot })` wire the runtime invert behavior into the application at bootstrap; default-responsive and SSR-safe via injected `DOCUMENT`.
+- **Typed-enum/method agreement** — `TbxMatSeverityLevel` enum values match method names exactly; call `resolve(level)` or the named method and get the same result.
 - **Strategy-agnostic substitution** — any implementation of `TbxMatSeverityResolver` is drop-in interchangeable with another regardless of rendering strategy.
-- **Default tier as first-class peer** — the `default` severity represents no classification and is handled with the same consistency as the four classic severities plus `help`.
-- **Built on [`@teqbench/tbx-mat-icons` ↗](https://github.com/teqbench/tbx-mat-icons)** — inherits registration, resolution, and fontSet cascade mechanics from the foundational icon service contracts.
-- **Icon-data-agnostic** — ships abstract classes and a contract, not icons; downstream packages choose and register their own icon mappings.
 
 ## When to use
 
 Use `@teqbench/tbx-mat-severity-theme` when:
 
-- Building a component or service in the TeqBench family that needs severity-leveled icons — banner, notification, dialog, toast, or any message surface where `success` / `error` / `warning` / etc. distinctions matter.
-- Building an application that wants to expose its own custom icon choices for the same six severities (e.g. a themed brand variant).
+- Building a component or service in the `@teqbench` family that needs severity-leveled icons or colors — banner, notification, dialog, toast, or any message surface where `success` / `error` / `warning` / etc. distinctions matter.
+- Building an application that wants to invert severity colors globally (white backgrounds, colored text) or scoped to part of the UI.
+- Building an application that wants to expose its own custom icon choices for the same six severities (e.g. a themed brand variant) — extend one of the abstract bases and register your own icons.
 
 Do not use it for:
 
@@ -98,7 +99,11 @@ npm install @teqbench/tbx-mat-severity-theme
 
 ```typescript
 import { Injectable } from '@angular/core';
-import { TbxMatSeverityLevel, TbxMatSeverityFontIconService } from '@teqbench/tbx-mat-severity-theme';
+import {
+    TBX_MAT_SEVERITY_DEFAULT_FONT_LIGATURES,
+    TbxMatSeverityLevel,
+    TbxMatSeverityFontIconService,
+} from '@teqbench/tbx-mat-severity-theme';
 
 // MyNotificationFontIconService is a hypothetical consumer-defined subclass
 @Injectable()
@@ -109,38 +114,10 @@ export class MyNotificationFontIconService extends TbxMatSeverityFontIconService
 
     protected override initialize(): void {
         super.initialize();
-        this.register(TbxMatSeverityLevel.Default, 'chat_info');
-        this.register(TbxMatSeverityLevel.Success, 'check_circle');
-        this.register(TbxMatSeverityLevel.Error, 'error');
-        this.register(TbxMatSeverityLevel.Warning, 'warning_amber');
-        this.register(TbxMatSeverityLevel.Information, 'info');
-        this.register(TbxMatSeverityLevel.Help, 'help');
+        for (const level of Object.values(TbxMatSeverityLevel)) {
+            this.register(level, TBX_MAT_SEVERITY_DEFAULT_FONT_LIGATURES[level]);
+        }
     }
-}
-```
-
-Component consuming the service:
-
-```typescript
-import { Component, inject, input } from '@angular/core';
-import { MatIconModule } from '@angular/material/icon';
-import { TbxMatSeverityLevel } from '@teqbench/tbx-mat-severity-theme';
-// MyNotificationFontIconService is a hypothetical consumer-defined subclass
-import { MyNotificationFontIconService } from './my-notification-font-icon.service';
-
-// NotificationComponent is a hypothetical consumer-defined component
-@Component({
-    selector: 'app-notification',
-    imports: [MatIconModule],
-    template: `
-        <mat-icon [fontSet]="icons.fontSet">
-            {{ icons.resolve(severity()) }}
-        </mat-icon>
-    `,
-})
-export class NotificationComponent {
-    readonly icons = inject(MyNotificationFontIconService);
-    readonly severity = input.required<TbxMatSeverityLevel>();
 }
 ```
 
@@ -148,55 +125,116 @@ export class NotificationComponent {
 
 ```typescript
 import { Injectable } from '@angular/core';
-import { TbxMatSeverityLevel, TbxMatSeveritySvgIconService } from '@teqbench/tbx-mat-severity-theme';
+import {
+    TBX_MAT_SEVERITY_DEFAULT_SVG_ICONS,
+    TbxMatSeverityLevel,
+    TbxMatSeveritySvgIconService,
+} from '@teqbench/tbx-mat-severity-theme';
 
 // MyNotificationSvgIconService is a hypothetical consumer-defined subclass
 @Injectable()
 export class MyNotificationSvgIconService extends TbxMatSeveritySvgIconService {
-    // No constructor needed — TbxMatSvgIconService handles inject() and
-    // calls initialize() internally. Only override initialize() to register icons.
     protected override initialize(): void {
         super.initialize();
-        this.register(TbxMatSeverityLevel.Default, '<svg>...</svg>');
-        this.register(TbxMatSeverityLevel.Success, '<svg>...</svg>');
-        this.register(TbxMatSeverityLevel.Error, '<svg>...</svg>');
-        this.register(TbxMatSeverityLevel.Warning, '<svg>...</svg>');
-        this.register(TbxMatSeverityLevel.Information, '<svg>...</svg>');
-        this.register(TbxMatSeverityLevel.Help, '<svg>...</svg>');
+        for (const level of Object.values(TbxMatSeverityLevel)) {
+            this.register(level, TBX_MAT_SEVERITY_DEFAULT_SVG_ICONS[level]);
+        }
     }
 }
 ```
 
-Component consuming the service:
+### Default icon sets
+
+Both default sets are records keyed by `TbxMatSeverityLevel`, so consumers can iterate all six levels or index into the record for a single level:
 
 ```typescript
-import { Component, inject, input } from '@angular/core';
-import { MatIconModule } from '@angular/material/icon';
-import { TbxMatSeverityLevel } from '@teqbench/tbx-mat-severity-theme';
-// MyNotificationSvgIconService is a hypothetical consumer-defined subclass
-import { MyNotificationSvgIconService } from './my-notification-svg-icon.service';
+import {
+    TBX_MAT_SEVERITY_DEFAULT_FONT_LIGATURES,
+    TBX_MAT_SEVERITY_DEFAULT_SVG_ICONS,
+    TbxMatSeverityLevel,
+} from '@teqbench/tbx-mat-severity-theme';
 
-// NotificationComponent is a hypothetical consumer-defined component
-@Component({
-    selector: 'app-notification',
-    imports: [MatIconModule],
-    template: ` <mat-icon [svgIcon]="icons.resolve(severity())!"></mat-icon> `,
-})
-export class NotificationComponent {
-    readonly icons = inject(MyNotificationSvgIconService);
-    readonly severity = input.required<TbxMatSeverityLevel>();
+// Ligature for the Warning level (Material Symbols)
+TBX_MAT_SEVERITY_DEFAULT_FONT_LIGATURES[TbxMatSeverityLevel.Warning]; // 'warning_amber'
+
+// Inline SVG markup for the Error level
+TBX_MAT_SEVERITY_DEFAULT_SVG_ICONS[TbxMatSeverityLevel.Error]; // '<svg>...</svg>'
+```
+
+The `Default` level ligature is `info_i` and its SVG reuses the `Information` markup. Consumers may override any subset in their concrete service's `initialize()` without touching the others.
+
+### Shared SCSS color tokens
+
+Import the SCSS partial and reference the neutral `--tbx-mat-severity-<level>-<background|text>` custom properties directly, or call the `tbx-mat-severity-theme()` mixin to emit package-prefixed aliases:
+
+```scss
+@use '@teqbench/tbx-mat-severity-theme/styles/tbx-mat-severity-theme' as severity;
+
+html {
+    @include severity.tbx-mat-severity-theme('tbx-mat-notification');
+    // Emits:
+    //   --tbx-mat-notification-default-background: var(--tbx-mat-severity-default-background);
+    //   --tbx-mat-notification-default-text:       var(--tbx-mat-severity-default-text);
+    //   --tbx-mat-notification-success-background: var(--tbx-mat-severity-success-background);
+    //   ... (same pattern for error, warning, information, help)
 }
 ```
+
+The partial sets the six token pairs on `html`. The `default` level aliases [`--mat-sys-inverse-surface`](https://material.angular.dev) / `--mat-sys-inverse-on-surface` so it stays theme-responsive; the five colored levels use fixed brand-conventional colors (green, red, amber, blue, lighter blue) with white text.
+
+Applications can override individual tokens in theme scopes:
+
+```scss
+html[data-theme='my-brand'] {
+    --tbx-mat-severity-success-background: #1b5e20;
+}
+```
+
+### Runtime theme configuration
+
+Enable inversion — white background, colored text per level — by calling `provideTbxMatSeverityTheme()` at bootstrap. The helper sets the `TBX_MAT_SEVERITY_THEME_CONFIG` token value and (by default) toggles the `tbx-mat-severity-inverted` class on `<html>` via an environment initializer:
+
+```typescript
+import { bootstrapApplication } from '@angular/platform-browser';
+import { provideTbxMatSeverityTheme } from '@teqbench/tbx-mat-severity-theme';
+import { AppComponent } from './app/app.component';
+
+bootstrapApplication(AppComponent, {
+    providers: [provideTbxMatSeverityTheme({ invert: true })],
+});
+```
+
+For scoped inversion (e.g., a single dialog), pass `applyToRoot: false` and bind `TBX_MAT_SEVERITY_INVERTED_CLASS` on the target host:
+
+```typescript
+import { Component, input } from '@angular/core';
+import { TBX_MAT_SEVERITY_INVERTED_CLASS } from '@teqbench/tbx-mat-severity-theme';
+
+@Component({
+    selector: 'app-invertable-panel',
+    host: { '[class]': 'inverted() ? invertedClass : null' },
+    template: `<!-- ... -->`,
+})
+export class InvertablePanelComponent {
+    readonly invertedClass = TBX_MAT_SEVERITY_INVERTED_CLASS;
+    readonly inverted = input(false);
+}
+```
+
+When the provider is not called, `TBX_MAT_SEVERITY_THEME_CONFIG` resolves via its default factory to `{ invert: false }`, so injection never throws and no side effect is applied.
 
 ## Concepts
 
 - **Severity level** — a classification of a user-facing message into one of six tiers (`default`, `success`, `error`, `warning`, `information`, or `help`) that drives icon and color choices.
 - **Severity tier** — a single level within the severity classification; there are exactly six and the set is closed by design.
-- **Default tier** — the severity value representing no classification, used when the message shouldn't assert `success`, `error`, or any other semantic category.
+- **Default tier** — the severity value representing no classification, used when the message shouldn't assert `success`, `error`, or any other semantic category. Its theme tokens alias Material's system color tokens so it remains theme-responsive.
 - **Severity resolver contract** — the `TbxMatSeverityResolver` interface pinning down exactly the six severity methods that every severity-aware icon service must implement.
 - **Enum/method agreement** — the intentional redundancy where `TbxMatSeverityLevel` enum values match the corresponding method names on `TbxMatSeverityResolver` character-for-character.
+- **Severity color token** — one of the CSS custom properties (`--tbx-mat-severity-<level>-background`, `--tbx-mat-severity-<level>-text`) that consumer packages reference for severity-driven coloring.
+- **Inverted variant** — the visual mode where background and text swap per severity level; scoped by the `tbx-mat-severity-inverted` class on any ancestor.
+- **Root-class application** — the provider helper's default behavior of toggling the inverted class on `<html>` at bootstrap; opt out via `applyToRoot: false` for scoped inversion.
 - **Strategy-agnostic substitution** — the ability to swap one severity icon service for another (font-based for SVG-based, or custom for default) without any call-site change because both honor the same contract.
-- **Downstream icon registration** — the pattern where a consuming package subclasses a severity icon service and overrides `initialize()` to register its own icon choices.
+- **Downstream icon registration** — the pattern where a consuming package subclasses a severity icon service and overrides `initialize()` to register its own icon choices, typically pulling from one of the shipped default sets.
 
 ## API Reference
 
@@ -255,9 +293,36 @@ Extends `TbxMatSvgIconService<TbxMatSeverityLevel>` and implements `TbxMatSeveri
 | `help()`        | `string`              | Resolves the Help severity icon name from the registry            |
 | `resolve(name)` | `string \| undefined` | Resolves a `TbxMatSeverityLevel` to its registered `svgIcon` name |
 
+### Default icon sets
+
+| Export                                    | Type                                  | Description                                                            |
+| ----------------------------------------- | ------------------------------------- | ---------------------------------------------------------------------- |
+| `TBX_MAT_SEVERITY_DEFAULT_SVG_ICONS`      | `Record<TbxMatSeverityLevel, string>` | Inline SVG markup per level; `Default` reuses the `Information` markup |
+| `TBX_MAT_SEVERITY_DEFAULT_FONT_LIGATURES` | `Record<TbxMatSeverityLevel, string>` | Material Symbols ligature names; `Default` = `info_i`                  |
+
+### Theme configuration
+
+| Export                            | Kind                                        | Description                                                                                       |
+| --------------------------------- | ------------------------------------------- | ------------------------------------------------------------------------------------------------- |
+| `TbxMatSeverityThemeConfig`       | interface                                   | Runtime config shape: `{ invert: boolean; applyToRoot?: boolean }` (defaults `applyToRoot: true`) |
+| `TBX_MAT_SEVERITY_THEME_CONFIG`   | `InjectionToken<TbxMatSeverityThemeConfig>` | Root-provided token; default factory returns `{ invert: false }`                                  |
+| `provideTbxMatSeverityTheme`      | function                                    | Returns `EnvironmentProviders`; supplies the config value and toggles the root class              |
+| `TBX_MAT_SEVERITY_INVERTED_CLASS` | `string`                                    | CSS class literal (`'tbx-mat-severity-inverted'`) shared by the SCSS partial and the provider     |
+
+### Shared SCSS partial
+
+Path: `@teqbench/tbx-mat-severity-theme/styles/tbx-mat-severity-theme`
+
+| Symbol                                  | Kind    | Description                                                                          |
+| --------------------------------------- | ------- | ------------------------------------------------------------------------------------ |
+| `--tbx-mat-severity-<level>-background` | CSS var | Background color token per severity level                                            |
+| `--tbx-mat-severity-<level>-text`       | CSS var | Text color token per severity level                                                  |
+| `.tbx-mat-severity-inverted`            | Class   | Swaps the background/text pair per level when applied to any ancestor                |
+| `tbx-mat-severity-theme($prefix)`       | Mixin   | Emits `--<prefix>-<level>-<background\|text>` aliases referencing the neutral tokens |
+
 ## Accessibility
 
-Not applicable — abstract service contracts, no UI surface. Consumers that render `<mat-icon>` with the values produced by these services are responsible for pairing each icon with an accessible label (either via adjacent severity text, `aria-label`, or `aria-hidden="true"` when the icon is decorative).
+The package ships no UI surface. Consumers that render `<mat-icon>` with the values produced by these services are responsible for pairing each icon with an accessible label (either via adjacent severity text, `aria-label`, or `aria-hidden="true"` when the icon is decorative). Inversion affects color only; it does not alter semantic markup or contrast responsibilities.
 
 ## Compatibility
 
@@ -278,8 +343,9 @@ Not applicable — abstract service contracts, no UI surface. Consumers that ren
 
 ### Used by
 
-- [`@teqbench/tbx-mat-banners` ↗](https://github.com/teqbench/tbx-mat-banners) — banner component and service consuming severity icons through this package's abstract services.
-- [`@teqbench/tbx-mat-notifications` ↗](https://github.com/teqbench/tbx-mat-notifications) — notification service consuming severity icons through this package's abstract services.
+- [`@teqbench/tbx-mat-notifications` ↗](https://github.com/teqbench/tbx-mat-notifications) — notification service consuming severity icons, color tokens, and the invert flag through this foundation.
+- [`@teqbench/tbx-mat-banners` ↗](https://github.com/teqbench/tbx-mat-banners) — banner component and service consuming severity icons, color tokens, and the invert flag through this foundation.
+- [`@teqbench/tbx-mat-dialogs` ↗](https://github.com/teqbench/tbx-mat-dialogs) — dialog components consuming severity icons, color tokens, and the invert flag through this foundation.
 
 ## Versioning & releases
 

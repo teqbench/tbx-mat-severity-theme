@@ -11,11 +11,15 @@
   url: https://github.com/teqbench/tbx-mat-icons
   summary: Foundational abstract icon service contracts this package extends for severity-leveled resolution.
   direction: upstream
-- name: "@teqbench/tbx-mat-banners"
-  url: https://github.com/teqbench/tbx-mat-banners
-  summary: Banner component and service consuming severity icons through this package's abstract services.
-  direction: downstream
 - name: "@teqbench/tbx-mat-notifications"
   url: https://github.com/teqbench/tbx-mat-notifications
-  summary: Notification service consuming severity icons through this package's abstract services.
+  summary: Notification service consuming severity icons, color tokens, and the invert flag through this foundation.
+  direction: downstream
+- name: "@teqbench/tbx-mat-banners"
+  url: https://github.com/teqbench/tbx-mat-banners
+  summary: Banner component and service consuming severity icons, color tokens, and the invert flag through this foundation.
+  direction: downstream
+- name: "@teqbench/tbx-mat-dialogs"
+  url: https://github.com/teqbench/tbx-mat-dialogs
+  summary: Dialog components consuming severity icons, color tokens, and the invert flag through this foundation.
   direction: downstream

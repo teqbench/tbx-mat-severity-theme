@@ -4,13 +4,15 @@
   summary: TbxMatSeverityResolver fixes exactly six methods — default, success, error, warning, information, help — so every implementer handles the same tiers consistently.
 - name: Two abstract strategy bases
   summary: TbxMatSeverityFontIconService and TbxMatSeveritySvgIconService implement the contract for font and SVG rendering respectively.
+- name: Default icon sets shipped
+  summary: TBX_MAT_SEVERITY_DEFAULT_SVG_ICONS (CC0 inline SVG markup) and TBX_MAT_SEVERITY_DEFAULT_FONT_LIGATURES (Material Symbols ligature names) give consumers turnkey defaults.
+- name: Shared SCSS color tokens
+  summary: Neutral --tbx-mat-severity-<level>-<background|text> custom properties defined once, with a prefix-remap mixin for package-local aliases.
+- name: Pure-CSS invert support
+  summary: A .tbx-mat-severity-inverted class flips background and text per level across the entire token set.
+- name: DI config and provider helper
+  summary: TBX_MAT_SEVERITY_THEME_CONFIG and provideTbxMatSeverityTheme({ invert, applyToRoot }) wire the runtime invert behavior into the application at bootstrap — SSR-safe via injected DOCUMENT.
 - name: Typed-enum/method agreement
   summary: TbxMatSeverityLevel enum values match the method names exactly — call resolve(level) or the named method, same result.
 - name: Strategy-agnostic substitution
   summary: Any implementation of TbxMatSeverityResolver is drop-in interchangeable with another regardless of rendering strategy.
-- name: Default tier as first-class peer
-  summary: The default severity represents no classification and is handled with the same consistency as success, error, warning, information, and help.
-- name: Built on tbx-mat-icons
-  summary: Inherits registration, resolution, and fontSet cascade mechanics from the foundational icon service contracts.
-- name: Icon-data-agnostic
-  summary: Ships abstract classes and a contract, not icons — downstream packages choose and register their own icon mappings.
