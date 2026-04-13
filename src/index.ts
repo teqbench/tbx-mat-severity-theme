@@ -14,9 +14,17 @@
  * - {@link TbxMatSeverityLevel} — Enum of the six severity levels.
  * - {@link TbxMatSeverityFontIconService} — Abstract font-icon base with severity resolution.
  * - {@link TbxMatSeveritySvgIconService} — Abstract SVG-icon base with severity resolution.
+ * - {@link TBX_MAT_SEVERITY_DEFAULT_SVG_ICONS} — Default inline SVG markup per severity level.
+ * - {@link TBX_MAT_SEVERITY_DEFAULT_FONT_LIGATURES} — Default font ligature names per severity level.
  *
  * @packageDocumentation
  */
+
+// Constants
+export {
+    TBX_MAT_SEVERITY_DEFAULT_FONT_LIGATURES,
+    TBX_MAT_SEVERITY_DEFAULT_SVG_ICONS,
+} from './constants/severity-theme.constants';
 
 // Contract
 export type { TbxMatSeverityResolver } from './contracts/severity-resolver.contract';
