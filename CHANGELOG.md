@@ -1,5 +1,16 @@
 # Changelog
 
+## [7.2.0](https://github.com/teqbench/tbx-mat-severity-theme/compare/v7.1.0...v7.2.0) (2026-04-13)
+
+
+### Features
+
+* add DI config token and provider for severity theme ([0500bf2](https://github.com/teqbench/tbx-mat-severity-theme/commit/0500bf20129ee35269327646665f95bc09271873))
+* add shared severity SCSS tokens with invert support ([71f4cf5](https://github.com/teqbench/tbx-mat-severity-theme/commit/71f4cf5978fd7998dcb7673b99499d9c8eb3a0b9))
+* establish severity theme foundation package ([1245625](https://github.com/teqbench/tbx-mat-severity-theme/commit/12456250dd48aa579f89d69623c9b1f11a2b8e6b))
+* export default severity SVG icons and font ligatures ([9dcb510](https://github.com/teqbench/tbx-mat-severity-theme/commit/9dcb5104e31a3099c2c05468f8f2d7999c139b99))
+* mirror tbx-mat-severity-icons as foundation baseline ([8a95010](https://github.com/teqbench/tbx-mat-severity-theme/commit/8a95010e1e0f164ece55a3070e0d3f0063d5f30f))
+
 ## [7.1.0](https://github.com/teqbench/tbx-mat-severity-theme/compare/v7.0.1...v7.1.0) (2026-04-13)
 
 
