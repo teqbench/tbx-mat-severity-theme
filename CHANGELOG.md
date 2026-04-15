@@ -1,5 +1,17 @@
 # Changelog
 
+## [8.0.0](https://github.com/teqbench/tbx-mat-severity-theme/compare/v7.2.1...v8.0.0) (2026-04-15)
+
+
+### ⚠ BREAKING CHANGES
+
+* **constants:** correct default SVG icons to shield set
+
+### Bug Fixes
+
+* **constants:** correct default SVG icons to shield set ([48486a4](https://github.com/teqbench/tbx-mat-severity-theme/commit/48486a4fa850d3060a85efd70322572fef981e40))
+* **constants:** correct default SVG icons to shield set ([ccfdc55](https://github.com/teqbench/tbx-mat-severity-theme/commit/ccfdc552b3a5bdbc5445ac6077cbc9dd54c474c8))
+
 ## [7.2.1](https://github.com/teqbench/tbx-mat-severity-theme/compare/v7.2.0...v7.2.1) (2026-04-15)
 
 
