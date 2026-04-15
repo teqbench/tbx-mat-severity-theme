@@ -55,6 +55,9 @@ export const TBX_MAT_SEVERITY_INVERTED_CLASS = 'tbx-mat-severity-inverted';
 // Source: https://www.svgrepo.com/collection/small-flat-vectors/
 // License: CC0 (no attribution required)
 
+const SVG_DEFAULT =
+    '<svg viewBox="0 0 800 800" xmlns="http://www.w3.org/2000/svg"><path d="m100 100v333.3c0 140 121.1 266.7 300 333.4 178.9-66.7 300-193.4 300-333.4v-333.3z" fill="#95a5a6"/><path d="m100 66.7v333.3c0 140 121.1 266.7 300 333.3 178.9-66.6 300-193.3 300-333.3v-333.3z" fill="#ecf0f1"/><path d="m100 66.7v333.3c0 140 121.1 266.7 300 333.3v-666.6z" fill="#bdc3c7"/><path d="m166.7 133.3v266.7c0 113.3 94.1 213.3 233.3 266.7 139.2-53.4 233.3-153.4 233.3-266.7v-266.7z" fill="#313033"/><path d="m400 133.3v533.4c139.2-53.4 233.3-153.4 233.3-266.7v-266.7z" fill="#515154"/><path d="m366.7 199.3v66.7h66.6v-66.7zm-33.3 133.4l-33.3 33.3h66.6v200h-66.6v33.3h33.3 133.3 33.4v-33.3h-66.7v-233.3z" fill="#313033"/><path d="m366.7 166v66.7h66.6v-66.7zm-33.3 133.3l-33.3 33.4h66.6v200h-66.6v33.3h33.3 133.3 33.4v-33.3h-66.7v-233.4z" fill="#ecf0f1"/></svg>';
+
 const SVG_SUCCESS =
     '<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><g transform="translate(0 -1028.4)"><path d="m3 1031.4v10c0 4.2 3.6322 8 9 10 5.368-2 9-5.8 9-10v-10h-18z" fill="#95a5a6"/><path d="m3 1030.4v10c0 4.2 3.6322 8 9 10 5.368-2 9-5.8 9-10v-10h-18z" fill="#ecf0f1"/><path d="m3 1030.4v10c0 4.2 3.6322 8 9 10v-20h-9z" fill="#bdc3c7"/><path d="m5 1032.4v8c0 3.4 2.8251 6.4 7 8 4.175-1.6 7-4.6 7-8v-8h-14z" fill="#27ae60"/><path d="m12 1032.4v16c4.175-1.6 7-4.6 7-8v-8h-7z" fill="#2ecc71"/><path d="m16 1037.4-4.683 4.6-1.9511-1.9-1.6586 1.7 1.9512 1.9 1.5615 1.6 0.097 0.1 6.342-6.4-1.659-1.6z" fill="#27ae60"/><path d="m16 1036.4-4.683 4.6-1.9511-1.9-1.6586 1.7 1.9512 1.9 1.5615 1.6 0.097 0.1 6.342-6.4-1.659-1.6z" fill="#ecf0f1"/></g></svg>';
 
@@ -115,7 +118,7 @@ const SVG_HELP =
  * @public
  */
 export const TBX_MAT_SEVERITY_DEFAULT_SVG_ICONS: Record<TbxMatSeverityLevel, string> = {
-    [TbxMatSeverityLevel.Default]: SVG_INFORMATION,
+    [TbxMatSeverityLevel.Default]: SVG_DEFAULT,
     [TbxMatSeverityLevel.Success]: SVG_SUCCESS,
     [TbxMatSeverityLevel.Error]: SVG_ERROR,
     [TbxMatSeverityLevel.Warning]: SVG_WARNING,
