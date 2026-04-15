@@ -1,5 +1,13 @@
 # Changelog
 
+## [7.2.1](https://github.com/teqbench/tbx-mat-severity-theme/compare/v7.2.0...v7.2.1) (2026-04-15)
+
+
+### Bug Fixes
+
+* **package:** expose SCSS partials via package exports ([2679c7c](https://github.com/teqbench/tbx-mat-severity-theme/commit/2679c7c0966619b01b676a0f384c4c1cc862f415))
+* **package:** expose SCSS partials via package exportsFix/update exports ([6a63c1c](https://github.com/teqbench/tbx-mat-severity-theme/commit/6a63c1c774285264864f3b5dca236ad6801c6139))
+
 ## [7.2.0](https://github.com/teqbench/tbx-mat-severity-theme/compare/v7.1.0...v7.2.0) (2026-04-13)
 
 
