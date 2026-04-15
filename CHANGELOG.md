@@ -1,5 +1,13 @@
 # Changelog
 
+## [8.0.1](https://github.com/teqbench/tbx-mat-severity-theme/compare/v8.0.0...v8.0.1) (2026-04-15)
+
+
+### Bug Fixes
+
+* **constants:** use distinct shield icon for Default severity ([e0d1e67](https://github.com/teqbench/tbx-mat-severity-theme/commit/e0d1e671ca3a6a7eec70575e394e52918f6fe5e2))
+* **constants:** use distinct shield icon for Default severity ([ce67a2f](https://github.com/teqbench/tbx-mat-severity-theme/commit/ce67a2fdec279892570b65f54a2f5b557637cf2d))
+
 ## [8.0.0](https://github.com/teqbench/tbx-mat-severity-theme/compare/v7.2.1...v8.0.0) (2026-04-15)
 
 
