@@ -2,7 +2,7 @@
 
 ![Build Status](https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/teqbench-shields-bot/a69600f4ed4ebed89ffb35d808e05eb4/raw/tbx-mat-severity-theme-main-build-status.json) ![Tests](https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/teqbench-shields-bot/a69600f4ed4ebed89ffb35d808e05eb4/raw/tbx-mat-severity-theme-main-tests.json) ![Coverage](https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/teqbench-shields-bot/a69600f4ed4ebed89ffb35d808e05eb4/raw/tbx-mat-severity-theme-main-coverage.json) ![Version](https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/teqbench-shields-bot/a69600f4ed4ebed89ffb35d808e05eb4/raw/tbx-mat-severity-theme-main-version.json) ![Build Number](https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/teqbench-shields-bot/a69600f4ed4ebed89ffb35d808e05eb4/raw/tbx-mat-severity-theme-main-build-number.json)
 
-> Foundation package for severity theming in [Angular Material ↗](https://material.angular.dev) projects. Ships a six-tier severity enum (`default`, `success`, `error`, `warning`, `information`, `help`) and resolver contract, abstract font-icon and SVG-icon base classes built on [`@teqbench/tbx-mat-icons` ↗](https://github.com/teqbench/tbx-mat-icons), default icon sets (SVG markup and Material Symbols ligatures), shared SCSS color tokens with invert support, and an [Angular ↗](https://angular.dev) DI config token plus provider helper — consumed by [`@teqbench/tbx-mat-notifications` ↗](https://github.com/teqbench/tbx-mat-notifications), [`@teqbench/tbx-mat-banners` ↗](https://github.com/teqbench/tbx-mat-banners), [`@teqbench/tbx-mat-dialogs` ↗](https://github.com/teqbench/tbx-mat-dialogs), and any future severity-leveled UI packages.
+> Foundation package for severity theming in [Angular Material ↗](https://material.angular.dev) projects. Ships a six-tier severity enum (`default`, `success`, `error`, `warning`, `information`, `help`) and resolver contract, abstract font-icon and SVG-icon base classes built on [`@teqbench/tbx-mat-icons` ↗](https://github.com/teqbench/tbx-mat-icons), default icon sets (SVG markup and [Material Symbols ↗](https://fonts.google.com/icons) ligatures), shared SCSS color tokens with invert support, and an [Angular ↗](https://angular.dev) DI config token plus provider helper — consumed by [`@teqbench/tbx-mat-notifications` ↗](https://github.com/teqbench/tbx-mat-notifications), [`@teqbench/tbx-mat-banners` ↗](https://github.com/teqbench/tbx-mat-banners), [`@teqbench/tbx-mat-dialogs` ↗](https://github.com/teqbench/tbx-mat-dialogs), and any future severity-leveled UI packages.
 
 <details>
 <summary><strong>Table of contents</strong></summary>
@@ -38,7 +38,7 @@ It provides four layers:
 
 - **Severity contract and enum** — `TbxMatSeverityLevel` (six tiers) and `TbxMatSeverityResolver` (the six-method contract any severity-aware icon service implements).
 - **Abstract icon service bases** — `TbxMatSeverityFontIconService` and `TbxMatSeveritySvgIconService` extend the abstract strategies from [`@teqbench/tbx-mat-icons` ↗](https://github.com/teqbench/tbx-mat-icons) and implement the resolver contract. Downstream packages subclass one and override `initialize()` to register icon mappings.
-- **Default icon sets** — `TBX_MAT_SEVERITY_DEFAULT_SVG_ICONS` (inline SVG markup per level) and `TBX_MAT_SEVERITY_DEFAULT_FONT_LIGATURES` (Material Symbols ligature names per level). Consumers pick them up via `initialize()` rather than re-declaring the same icon data in each package.
+- **Default icon sets** — `TBX_MAT_SEVERITY_DEFAULT_SVG_ICONS` (inline SVG markup per level) and `TBX_MAT_SEVERITY_DEFAULT_FONT_LIGATURES` ([Material Symbols ↗](https://fonts.google.com/icons) ligature names per level). Consumers pick them up via `initialize()` rather than re-declaring the same icon data in each package.
 - **Shared theme layer** — an SCSS partial defining neutral `--tbx-mat-severity-<level>-<background|text>` tokens and a `.tbx-mat-severity-inverted` class that swaps them, plus a `TBX_MAT_SEVERITY_THEME_CONFIG` DI token and `provideTbxMatSeverityTheme()` helper that wires the invert flag into the application at bootstrap.
 
 ### Why six severity tiers, not five
@@ -59,7 +59,7 @@ This intentional redundancy lets consumers pick whichever idiom fits their call 
 
 - **Six-tier severity contract** — `TbxMatSeverityResolver` fixes exactly six methods (`default`, `success`, `error`, `warning`, `information`, `help`) so every implementer handles the same tiers consistently.
 - **Two abstract strategy bases** — `TbxMatSeverityFontIconService` and `TbxMatSeveritySvgIconService` implement the contract for font and SVG rendering respectively.
-- **Default icon sets shipped** — `TBX_MAT_SEVERITY_DEFAULT_SVG_ICONS` (CC0 inline SVG markup) and `TBX_MAT_SEVERITY_DEFAULT_FONT_LIGATURES` (Material Symbols ligature names) give consumers turnkey defaults.
+- **Default icon sets shipped** — `TBX_MAT_SEVERITY_DEFAULT_SVG_ICONS` (CC0 inline SVG markup) and `TBX_MAT_SEVERITY_DEFAULT_FONT_LIGATURES` ([Material Symbols ↗](https://fonts.google.com/icons) ligature names) give consumers turnkey defaults.
 - **Shared SCSS color tokens** — neutral `--tbx-mat-severity-<level>-<background|text>` custom properties defined once, with a prefix-remap mixin for package-local aliases.
 - **Pure-CSS invert support** — a `.tbx-mat-severity-inverted` class flips background and text per level across the entire token set.
 - **DI config + provider helper** — `TBX_MAT_SEVERITY_THEME_CONFIG` and `provideTbxMatSeverityTheme({ invert, applyToRoot })` wire the runtime invert behavior into the application at bootstrap; default-responsive and SSR-safe via injected `DOCUMENT`.
@@ -328,7 +328,7 @@ Extends `TbxMatSvgIconService<TbxMatSeverityLevel>` and implements `TbxMatSeveri
     <dt><code>TBX_MAT_SEVERITY_DEFAULT_SVG_ICONS</code> (<code>Record&lt;TbxMatSeverityLevel, string&gt;</code>)</dt>
     <dd>Inline SVG markup per level; <code>Default</code> ships a distinct shield-style icon.</dd>
     <dt><code>TBX_MAT_SEVERITY_DEFAULT_FONT_LIGATURES</code> (<code>Record&lt;TbxMatSeverityLevel, string&gt;</code>)</dt>
-    <dd>Material Symbols ligature names; <code>Default</code> = <code>info</code>.</dd>
+    <dd><a href="https://fonts.google.com/icons">Material Symbols ↗</a> ligature names; <code>Default</code> = <code>info</code>.</dd>
 </dl>
 
 ### Theme configuration
