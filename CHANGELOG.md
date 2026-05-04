@@ -1,5 +1,26 @@
 # Changelog
 
+## [8.0.2](https://github.com/teqbench/tbx-mat-severity-theme/compare/v8.0.1...v8.0.2) (2026-05-04)
+
+
+### Bug Fixes
+
+* **ci:** point dep-compat-check at the real tracking epic ([03996f0](https://github.com/teqbench/tbx-mat-severity-theme/commit/03996f02644d70ae7db4c60583cd1b4452abb279)), closes [#48](https://github.com/teqbench/tbx-mat-severity-theme/issues/48)
+* **claude:** align CLAUDE.md with tbx-models baseline ([055e93d](https://github.com/teqbench/tbx-mat-severity-theme/commit/055e93d3012b17786bb6048e14606dd7367632ef))
+* **constants:** correct stale SVG-source collection name ([3bd97e6](https://github.com/teqbench/tbx-mat-severity-theme/commit/3bd97e6813210b18f2ca98ca40ba017bc6b976d6)), closes [#41](https://github.com/teqbench/tbx-mat-severity-theme/issues/41)
+* **docs:** add language specifier to bare code fences ([4bb6523](https://github.com/teqbench/tbx-mat-severity-theme/commit/4bb6523b1a606354d74a89bacdd960f7140bbcad)), closes [#45](https://github.com/teqbench/tbx-mat-severity-theme/issues/45)
+* **docs:** correct [@since](https://github.com/since) to 7.2.0 on all exports ([d5d361f](https://github.com/teqbench/tbx-mat-severity-theme/commit/d5d361f1a3651950c41eba08c232ee5c12dce6bc)), closes [#43](https://github.com/teqbench/tbx-mat-severity-theme/issues/43)
+* **docs:** correct Default severity icon claims after 8.0.1 ([b9fe294](https://github.com/teqbench/tbx-mat-severity-theme/commit/b9fe29466ed6eba8847543269d321b752d4970da)), closes [#37](https://github.com/teqbench/tbx-mat-severity-theme/issues/37)
+* **docs:** drop v8 ignore pragma reference from CLAUDE.md ([e7f708c](https://github.com/teqbench/tbx-mat-severity-theme/commit/e7f708c9a5041c78952a6b7ce285e05c4d42bd52)), closes [#40](https://github.com/teqbench/tbx-mat-severity-theme/issues/40)
+* **docs:** link Material Symbols mentions across docs ([21bef65](https://github.com/teqbench/tbx-mat-severity-theme/commit/21bef65a5cbac8b2f6ca5a07795d6c54db25f2a6)), closes [#44](https://github.com/teqbench/tbx-mat-severity-theme/issues/44)
+* **docs:** replace markdown tables with definition lists ([eaf9076](https://github.com/teqbench/tbx-mat-severity-theme/commit/eaf90769b892eb10e9c91f6778a223ab9b20f4f6))
+* **docs:** retag TbxMatSeverityResolver [@category](https://github.com/category) Interface ([df24842](https://github.com/teqbench/tbx-mat-severity-theme/commit/df24842534cd5545da63cf4bcea5fcc0c10a0018)), closes [#38](https://github.com/teqbench/tbx-mat-severity-theme/issues/38)
+* **docs:** split workflow doc headers into caller and reusable ([1d1e2a3](https://github.com/teqbench/tbx-mat-severity-theme/commit/1d1e2a3d2ea53fb0f320d68667404851d37d7662)), closes [#47](https://github.com/teqbench/tbx-mat-severity-theme/issues/47)
+* **docs:** tag severity icon services [@category](https://github.com/category) Contract ([29ab8ce](https://github.com/teqbench/tbx-mat-severity-theme/commit/29ab8cefbb8c277f25ad48280aa7b109daf3c4bb)), closes [#39](https://github.com/teqbench/tbx-mat-severity-theme/issues/39)
+* **models:** mark TbxMatSeverityThemeConfig fields readonly ([446a6dd](https://github.com/teqbench/tbx-mat-severity-theme/commit/446a6ddffde18de0506bee7ba751348e0d74fc31)), closes [#42](https://github.com/teqbench/tbx-mat-severity-theme/issues/42)
+* package updates, docs alignment, and review-driven cleanup ([ff76c2d](https://github.com/teqbench/tbx-mat-severity-theme/commit/ff76c2de786091819a97766ce4417e594c375b7e))
+* remove dependabot artifacts after migration to renovate ([e50c941](https://github.com/teqbench/tbx-mat-severity-theme/commit/e50c94110e5cb5827c0a737ec1948eee23041cec))
+
 ## [8.0.1](https://github.com/teqbench/tbx-mat-severity-theme/compare/v8.0.0...v8.0.1) (2026-04-15)
 
 
