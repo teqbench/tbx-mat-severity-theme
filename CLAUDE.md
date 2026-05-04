@@ -41,7 +41,7 @@ This is a `@teqbench` [Angular ↗](https://angular.dev) package (`tbx-mat-*`) b
 ## Publishing
 
 - Packages are published to [GitHub Packages ↗](https://github.com/orgs/teqbench/packages) (`@teqbench` scope) via the release workflow.
-- Coverage thresholds are enforced in CI: 80% lines/functions/statements, 75% branches, per file. Lines guarded by `/* v8 ignore next */` are excluded from [V8 ↗](https://v8.dev) coverage collection (used by [Vitest ↗](https://vitest.dev)). This pragma marks code that is unreachable in the test environment (e.g., SSR `window` guards).
+- Coverage thresholds are enforced in CI: 80% lines/functions/statements, 75% branches, per file.
 - **Build tooling:** [ng-packagr ↗](https://github.com/ng-packagr/ng-packagr) is used to build [Angular Package Format ↗](https://docs.google.com/document/d/1CZC2rcpxffTDfRDs6p1cfbmKNLA6x5O-NtkJglDaBVs/edit) (APF) output. It uses bundler module resolution internally, so source files use extensionless relative imports (e.g., `'./foo.service'`). The `ng-package.json` at the repo root configures the entry point and output directory. [ng-packagr ↗](https://github.com/ng-packagr/ng-packagr) generates its own `package.json` inside `dist/` with the correct APF entry points (`module`, `typings`, `exports`). The release workflow publishes from `dist/` directly (`npm publish ./dist`), so consumers resolve against [ng-packagr ↗](https://github.com/ng-packagr/ng-packagr)'s generated `package.json`. The root `package.json` does not need `main`, `types`, or `exports` fields.
 
 ## TSDoc Convention
@@ -233,7 +233,7 @@ All [TSDoc ↗](https://tsdoc.org) comments, inline code comments, and markdown 
 
 - Do not use terms with established technical meanings in unintended ways (e.g., "side-effect pattern" for fan-out, "structured output" for human-readable console logging).
 - Do not reference concepts or patterns that do not exist in the codebase.
-- Coverage pragmas (`/* v8 ignore next */`) and other non-obvious annotations must be documented in this file (see Publishing section).
+- Non-obvious annotations (custom decorators, coverage pragmas, etc.) must be documented in this file when introduced.
 - Configuration snapshots in documentation must note they are examples that may not reflect the current state.
 - Custom `package.json` metadata fields (not defined by the [npm ↗](https://www.npmjs.com) spec) must be identified as custom where referenced.
 
