@@ -161,7 +161,7 @@ TBX_MAT_SEVERITY_DEFAULT_FONT_LIGATURES[TbxMatSeverityLevel.Warning]; // 'warnin
 TBX_MAT_SEVERITY_DEFAULT_SVG_ICONS[TbxMatSeverityLevel.Error]; // '<svg>...</svg>'
 ```
 
-The `Default` level ligature is `info_i` and its SVG reuses the `Information` markup. Consumers may override any subset in their concrete service's `initialize()` without touching the others.
+The `Default` level ligature is `info` (the same as `Information`); its SVG is a distinct shield-style icon. Consumers may override any subset in their concrete service's `initialize()` without touching the others.
 
 ### Shared SCSS color tokens
 
@@ -326,9 +326,9 @@ Extends `TbxMatSvgIconService<TbxMatSeverityLevel>` and implements `TbxMatSeveri
 
 <dl>
     <dt><code>TBX_MAT_SEVERITY_DEFAULT_SVG_ICONS</code> (<code>Record&lt;TbxMatSeverityLevel, string&gt;</code>)</dt>
-    <dd>Inline SVG markup per level; <code>Default</code> reuses the <code>Information</code> markup.</dd>
+    <dd>Inline SVG markup per level; <code>Default</code> ships a distinct shield-style icon.</dd>
     <dt><code>TBX_MAT_SEVERITY_DEFAULT_FONT_LIGATURES</code> (<code>Record&lt;TbxMatSeverityLevel, string&gt;</code>)</dt>
-    <dd>Material Symbols ligature names; <code>Default</code> = <code>info_i</code>.</dd>
+    <dd>Material Symbols ligature names; <code>Default</code> = <code>info</code>.</dd>
 </dl>
 
 ### Theme configuration

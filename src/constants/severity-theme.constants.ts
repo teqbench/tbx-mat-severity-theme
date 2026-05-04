@@ -78,8 +78,8 @@ const SVG_HELP =
  *
  * @remarks
  * Shipped as the package defaults for use with
- * {@link TbxMatSeveritySvgIconService}. The `Default` level reuses the
- * `Information` markup. Consumers register entries via
+ * {@link TbxMatSeveritySvgIconService}. The `Default` level ships its own
+ * shield-style markup distinct from the other levels. Consumers register entries via
  * {@link https://material.angular.io/components/icon/api | MatIconRegistry} in
  * their concrete SVG icon service's `initialize()` override, or substitute
  * their own SVG markup per level.
@@ -133,7 +133,7 @@ export const TBX_MAT_SEVERITY_DEFAULT_SVG_ICONS: Record<TbxMatSeverityLevel, str
  * Shipped as the package defaults for use with
  * {@link TbxMatSeverityFontIconService}. Ligature names target the
  * {@link https://fonts.google.com/icons | Material Symbols} font set. The
- * `Default` level uses `info_i`. Consumers extending
+ * `Default` level uses `info` (the same ligature as `Information`). Consumers extending
  * {@link TbxMatSeverityFontIconService} register these in their concrete
  * service's `initialize()` override, or substitute their own ligature names
  * per level.
