@@ -1,7 +1,8 @@
 # Release Workflow — `release.yml`
 
 **Full name:** TeqBench Package - Release Workflow
-**File:** `.github/workflows/release.yml`
+**Local caller:** `.github/workflows/release.yml`
+**Upstream reusable:** `teqbench/.github/.github/workflows/release.yml`
 
 ---
 

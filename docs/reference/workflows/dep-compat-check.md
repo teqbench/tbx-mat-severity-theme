@@ -1,7 +1,8 @@
 # Dependency Compatibility Check — `dep-compat-check.yml`
 
 **Full name:** Dependency Compatibility Check
-**File:** `.github/workflows/dep-compat-check.yml`
+**Local caller:** `.github/workflows/dep-compat-check.yml`
+**Upstream reusable:** `teqbench/.github/.github/workflows/dep-compat-check.yml`
 
 ---
 

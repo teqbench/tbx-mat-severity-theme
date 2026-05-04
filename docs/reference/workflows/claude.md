@@ -1,7 +1,8 @@
 # Claude Code Workflow — `claude.yml`
 
 **Full name:** TeqBench Package - Claude Code Workflow
-**File:** `.github/workflows/claude.yml`
+**Local caller:** `.github/workflows/claude.yml`
+**Upstream reusable:** `teqbench/.github/.github/workflows/claude.yml`
 
 ---
 

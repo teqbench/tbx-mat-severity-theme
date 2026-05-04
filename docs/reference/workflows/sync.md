@@ -1,7 +1,8 @@
 # Sync Workflow — `sync.yml`
 
 **Full name:** TeqBench Package - Sync (Main into Dev) Workflow
-**File:** `.github/workflows/sync.yml`
+**Local caller:** `.github/workflows/sync.yml`
+**Upstream reusable:** `teqbench/.github/.github/workflows/sync.yml`
 
 ---
 

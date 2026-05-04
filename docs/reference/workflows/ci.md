@@ -1,7 +1,8 @@
 # CI Workflow — `ci.yml`
 
 **Full name:** TeqBench Package - CI Workflow
-**File:** `.github/workflows/ci.yml`
+**Local caller:** `.github/workflows/ci.yml`
+**Upstream reusable:** `teqbench/.github/.github/workflows/ci.yml`
 
 ---
 
