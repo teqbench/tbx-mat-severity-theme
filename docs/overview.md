@@ -1,5 +1,5 @@
 ---
-tagline: Foundation package for severity theming in [Angular Material ↗](https://material.angular.dev) projects. Ships a six-tier severity enum (`default`, `success`, `error`, `warning`, `information`, `help`) and resolver contract, abstract font-icon and SVG-icon base classes built on [`@teqbench/tbx-mat-icons` ↗](https://github.com/teqbench/tbx-mat-icons), default icon sets (SVG markup and Material Symbols ligatures), shared SCSS color tokens with invert support, and an [Angular ↗](https://angular.dev) DI config token plus provider helper — consumed by `@teqbench/tbx-mat-notifications`, `@teqbench/tbx-mat-banners`, `@teqbench/tbx-mat-dialogs`, and any future severity-leveled UI packages.
+tagline: Foundation package for severity theming in [Angular Material ↗](https://material.angular.dev) projects. Ships a six-tier severity enum (`default`, `success`, `error`, `warning`, `information`, `help`) and resolver contract, abstract font-icon and SVG-icon base classes built on [`@teqbench/tbx-mat-icons` ↗](https://github.com/teqbench/tbx-mat-icons), default icon sets (SVG markup and [Material Symbols ↗](https://fonts.google.com/icons) ligatures), shared SCSS color tokens with invert support, and an [Angular ↗](https://angular.dev) DI config token plus provider helper — consumed by `@teqbench/tbx-mat-notifications`, `@teqbench/tbx-mat-banners`, `@teqbench/tbx-mat-dialogs`, and any future severity-leveled UI packages.
 ---
 
 ## Overview
@@ -10,7 +10,7 @@ It provides four layers:
 
 - **Severity contract and enum** — `TbxMatSeverityLevel` (six tiers) and `TbxMatSeverityResolver` (the six-method contract any severity-aware icon service implements).
 - **Abstract icon service bases** — `TbxMatSeverityFontIconService` and `TbxMatSeveritySvgIconService` extend the abstract strategies from [`@teqbench/tbx-mat-icons` ↗](https://github.com/teqbench/tbx-mat-icons) and implement the resolver contract. Downstream packages subclass one and override `initialize()` to register icon mappings.
-- **Default icon sets** — `TBX_MAT_SEVERITY_DEFAULT_SVG_ICONS` (inline SVG markup per level) and `TBX_MAT_SEVERITY_DEFAULT_FONT_LIGATURES` (Material Symbols ligature names per level). Consumers pick them up via `initialize()` rather than re-declaring the same icon data in each package.
+- **Default icon sets** — `TBX_MAT_SEVERITY_DEFAULT_SVG_ICONS` (inline SVG markup per level) and `TBX_MAT_SEVERITY_DEFAULT_FONT_LIGATURES` ([Material Symbols ↗](https://fonts.google.com/icons) ligature names per level). Consumers pick them up via `initialize()` rather than re-declaring the same icon data in each package.
 - **Shared theme layer** — an SCSS partial defining neutral `--tbx-mat-severity-<level>-<background|text>` tokens and a `.tbx-mat-severity-inverted` class that swaps them, plus a `TBX_MAT_SEVERITY_THEME_CONFIG` DI token and `provideTbxMatSeverityTheme()` helper that wires the invert flag into the application at bootstrap.
 
 ### Why six severity tiers, not five

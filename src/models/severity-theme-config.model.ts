@@ -30,7 +30,7 @@
  * @category Models
  * @displayName Severity Theme Config
  * @order 1
- * @since 1.0.0
+ * @since 7.2.0
  * @related TBX_MAT_SEVERITY_THEME_CONFIG
  * @related provideTbxMatSeverityTheme
  * @related TBX_MAT_SEVERITY_INVERTED_CLASS
@@ -45,7 +45,7 @@ export interface TbxMatSeverityThemeConfig {
      *
      * @public
      */
-    invert: boolean;
+    readonly invert: boolean;
 
     /**
      * Whether to apply the inverted class to the document root automatically
@@ -60,5 +60,5 @@ export interface TbxMatSeverityThemeConfig {
      *
      * @public
      */
-    applyToRoot?: boolean;
+    readonly applyToRoot?: boolean;
 }

@@ -30,7 +30,7 @@ import type { TbxMatSeverityThemeConfig } from '../models/severity-theme-config.
  * @category Tokens
  * @displayName Severity Theme Config Token
  * @order 1
- * @since 1.0.0
+ * @since 7.2.0
  * @related TbxMatSeverityThemeConfig
  * @related provideTbxMatSeverityTheme
  *

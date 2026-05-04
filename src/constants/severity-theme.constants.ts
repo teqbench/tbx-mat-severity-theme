@@ -38,7 +38,7 @@ import { TbxMatSeverityLevel } from '../enums/severity-level.enum';
  * @category Constants
  * @displayName Severity Inverted Class
  * @order 3
- * @since 1.0.0
+ * @since 7.2.0
  * @related provideTbxMatSeverityTheme
  * @related TBX_MAT_SEVERITY_THEME_CONFIG
  *
@@ -51,7 +51,7 @@ export const TBX_MAT_SEVERITY_INVERTED_CLASS = 'tbx-mat-severity-inverted';
 // Consumers extending TbxMatSeveritySvgIconService register these via
 // MatIconRegistry, or override per level with their own markup.
 //
-// Icons sourced from the "Web 5" collection on SVG Repo.
+// Icons sourced from the "Small Flat Vectors" collection on SVG Repo.
 // Source: https://www.svgrepo.com/collection/small-flat-vectors/
 // License: CC0 (no attribution required)
 
@@ -78,8 +78,8 @@ const SVG_HELP =
  *
  * @remarks
  * Shipped as the package defaults for use with
- * {@link TbxMatSeveritySvgIconService}. The `Default` level reuses the
- * `Information` markup. Consumers register entries via
+ * {@link TbxMatSeveritySvgIconService}. The `Default` level ships its own
+ * shield-style markup distinct from the other levels. Consumers register entries via
  * {@link https://material.angular.io/components/icon/api | MatIconRegistry} in
  * their concrete SVG icon service's `initialize()` override, or substitute
  * their own SVG markup per level.
@@ -111,7 +111,7 @@ const SVG_HELP =
  * @category Constants
  * @displayName Default Severity SVG Icons
  * @order 1
- * @since 1.0.0
+ * @since 7.2.0
  * @related TbxMatSeverityLevel
  * @related TbxMatSeveritySvgIconService
  *
@@ -133,7 +133,7 @@ export const TBX_MAT_SEVERITY_DEFAULT_SVG_ICONS: Record<TbxMatSeverityLevel, str
  * Shipped as the package defaults for use with
  * {@link TbxMatSeverityFontIconService}. Ligature names target the
  * {@link https://fonts.google.com/icons | Material Symbols} font set. The
- * `Default` level uses `info_i`. Consumers extending
+ * `Default` level uses `info` (the same ligature as `Information`). Consumers extending
  * {@link TbxMatSeverityFontIconService} register these in their concrete
  * service's `initialize()` override, or substitute their own ligature names
  * per level.
@@ -165,7 +165,7 @@ export const TBX_MAT_SEVERITY_DEFAULT_SVG_ICONS: Record<TbxMatSeverityLevel, str
  * @category Constants
  * @displayName Default Severity Font Ligatures
  * @order 2
- * @since 1.0.0
+ * @since 7.2.0
  * @related TbxMatSeverityLevel
  * @related TbxMatSeverityFontIconService
  *

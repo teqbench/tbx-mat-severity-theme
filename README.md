@@ -2,7 +2,7 @@
 
 ![Build Status](https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/teqbench-shields-bot/a69600f4ed4ebed89ffb35d808e05eb4/raw/tbx-mat-severity-theme-main-build-status.json) ![Tests](https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/teqbench-shields-bot/a69600f4ed4ebed89ffb35d808e05eb4/raw/tbx-mat-severity-theme-main-tests.json) ![Coverage](https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/teqbench-shields-bot/a69600f4ed4ebed89ffb35d808e05eb4/raw/tbx-mat-severity-theme-main-coverage.json) ![Version](https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/teqbench-shields-bot/a69600f4ed4ebed89ffb35d808e05eb4/raw/tbx-mat-severity-theme-main-version.json) ![Build Number](https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/teqbench-shields-bot/a69600f4ed4ebed89ffb35d808e05eb4/raw/tbx-mat-severity-theme-main-build-number.json)
 
-> Foundation package for severity theming in [Angular Material ↗](https://material.angular.dev) projects. Ships a six-tier severity enum (`default`, `success`, `error`, `warning`, `information`, `help`) and resolver contract, abstract font-icon and SVG-icon base classes built on [`@teqbench/tbx-mat-icons` ↗](https://github.com/teqbench/tbx-mat-icons), default icon sets (SVG markup and Material Symbols ligatures), shared SCSS color tokens with invert support, and an [Angular ↗](https://angular.dev) DI config token plus provider helper — consumed by [`@teqbench/tbx-mat-notifications` ↗](https://github.com/teqbench/tbx-mat-notifications), [`@teqbench/tbx-mat-banners` ↗](https://github.com/teqbench/tbx-mat-banners), [`@teqbench/tbx-mat-dialogs` ↗](https://github.com/teqbench/tbx-mat-dialogs), and any future severity-leveled UI packages.
+> Foundation package for severity theming in [Angular Material ↗](https://material.angular.dev) projects. Ships a six-tier severity enum (`default`, `success`, `error`, `warning`, `information`, `help`) and resolver contract, abstract font-icon and SVG-icon base classes built on [`@teqbench/tbx-mat-icons` ↗](https://github.com/teqbench/tbx-mat-icons), default icon sets (SVG markup and [Material Symbols ↗](https://fonts.google.com/icons) ligatures), shared SCSS color tokens with invert support, and an [Angular ↗](https://angular.dev) DI config token plus provider helper — consumed by [`@teqbench/tbx-mat-notifications` ↗](https://github.com/teqbench/tbx-mat-notifications), [`@teqbench/tbx-mat-banners` ↗](https://github.com/teqbench/tbx-mat-banners), [`@teqbench/tbx-mat-dialogs` ↗](https://github.com/teqbench/tbx-mat-dialogs), and any future severity-leveled UI packages.
 
 <details>
 <summary><strong>Table of contents</strong></summary>
@@ -38,7 +38,7 @@ It provides four layers:
 
 - **Severity contract and enum** — `TbxMatSeverityLevel` (six tiers) and `TbxMatSeverityResolver` (the six-method contract any severity-aware icon service implements).
 - **Abstract icon service bases** — `TbxMatSeverityFontIconService` and `TbxMatSeveritySvgIconService` extend the abstract strategies from [`@teqbench/tbx-mat-icons` ↗](https://github.com/teqbench/tbx-mat-icons) and implement the resolver contract. Downstream packages subclass one and override `initialize()` to register icon mappings.
-- **Default icon sets** — `TBX_MAT_SEVERITY_DEFAULT_SVG_ICONS` (inline SVG markup per level) and `TBX_MAT_SEVERITY_DEFAULT_FONT_LIGATURES` (Material Symbols ligature names per level). Consumers pick them up via `initialize()` rather than re-declaring the same icon data in each package.
+- **Default icon sets** — `TBX_MAT_SEVERITY_DEFAULT_SVG_ICONS` (inline SVG markup per level) and `TBX_MAT_SEVERITY_DEFAULT_FONT_LIGATURES` ([Material Symbols ↗](https://fonts.google.com/icons) ligature names per level). Consumers pick them up via `initialize()` rather than re-declaring the same icon data in each package.
 - **Shared theme layer** — an SCSS partial defining neutral `--tbx-mat-severity-<level>-<background|text>` tokens and a `.tbx-mat-severity-inverted` class that swaps them, plus a `TBX_MAT_SEVERITY_THEME_CONFIG` DI token and `provideTbxMatSeverityTheme()` helper that wires the invert flag into the application at bootstrap.
 
 ### Why six severity tiers, not five
@@ -59,7 +59,7 @@ This intentional redundancy lets consumers pick whichever idiom fits their call 
 
 - **Six-tier severity contract** — `TbxMatSeverityResolver` fixes exactly six methods (`default`, `success`, `error`, `warning`, `information`, `help`) so every implementer handles the same tiers consistently.
 - **Two abstract strategy bases** — `TbxMatSeverityFontIconService` and `TbxMatSeveritySvgIconService` implement the contract for font and SVG rendering respectively.
-- **Default icon sets shipped** — `TBX_MAT_SEVERITY_DEFAULT_SVG_ICONS` (CC0 inline SVG markup) and `TBX_MAT_SEVERITY_DEFAULT_FONT_LIGATURES` (Material Symbols ligature names) give consumers turnkey defaults.
+- **Default icon sets shipped** — `TBX_MAT_SEVERITY_DEFAULT_SVG_ICONS` (CC0 inline SVG markup) and `TBX_MAT_SEVERITY_DEFAULT_FONT_LIGATURES` ([Material Symbols ↗](https://fonts.google.com/icons) ligature names) give consumers turnkey defaults.
 - **Shared SCSS color tokens** — neutral `--tbx-mat-severity-<level>-<background|text>` custom properties defined once, with a prefix-remap mixin for package-local aliases.
 - **Pure-CSS invert support** — a `.tbx-mat-severity-inverted` class flips background and text per level across the entire token set.
 - **DI config + provider helper** — `TBX_MAT_SEVERITY_THEME_CONFIG` and `provideTbxMatSeverityTheme({ invert, applyToRoot })` wire the runtime invert behavior into the application at bootstrap; default-responsive and SSR-safe via injected `DOCUMENT`.
@@ -161,7 +161,7 @@ TBX_MAT_SEVERITY_DEFAULT_FONT_LIGATURES[TbxMatSeverityLevel.Warning]; // 'warnin
 TBX_MAT_SEVERITY_DEFAULT_SVG_ICONS[TbxMatSeverityLevel.Error]; // '<svg>...</svg>'
 ```
 
-The `Default` level ligature is `info_i` and its SVG reuses the `Information` markup. Consumers may override any subset in their concrete service's `initialize()` without touching the others.
+The `Default` level ligature is `info` (the same as `Information`); its SVG is a distinct shield-style icon. Consumers may override any subset in their concrete service's `initialize()` without touching the others.
 
 ### Shared SCSS color tokens
 
@@ -242,83 +242,122 @@ When the provider is not called, `TBX_MAT_SEVERITY_THEME_CONFIG` resolves via it
 
 Contract defining the six severity icon methods.
 
-| Method          | Returns  | Description                                        |
-| --------------- | -------- | -------------------------------------------------- |
-| `default()`     | `string` | Icon identifier for the Default severity level     |
-| `success()`     | `string` | Icon identifier for the Success severity level     |
-| `error()`       | `string` | Icon identifier for the Error severity level       |
-| `warning()`     | `string` | Icon identifier for the Warning severity level     |
-| `information()` | `string` | Icon identifier for the Information severity level |
-| `help()`        | `string` | Icon identifier for the Help severity level        |
+<dl>
+    <dt><code>default()</code> (<code>string</code>)</dt>
+    <dd>Icon identifier for the Default severity level.</dd>
+    <dt><code>success()</code> (<code>string</code>)</dt>
+    <dd>Icon identifier for the Success severity level.</dd>
+    <dt><code>error()</code> (<code>string</code>)</dt>
+    <dd>Icon identifier for the Error severity level.</dd>
+    <dt><code>warning()</code> (<code>string</code>)</dt>
+    <dd>Icon identifier for the Warning severity level.</dd>
+    <dt><code>information()</code> (<code>string</code>)</dt>
+    <dd>Icon identifier for the Information severity level.</dd>
+    <dt><code>help()</code> (<code>string</code>)</dt>
+    <dd>Icon identifier for the Help severity level.</dd>
+</dl>
 
 ### `TbxMatSeverityLevel` (enum)
 
-| Member        | Value           |
-| ------------- | --------------- |
-| `Default`     | `'default'`     |
-| `Success`     | `'success'`     |
-| `Error`       | `'error'`       |
-| `Warning`     | `'warning'`     |
-| `Information` | `'information'` |
-| `Help`        | `'help'`        |
+<dl>
+    <dt><code>Default</code></dt>
+    <dd><code>'default'</code></dd>
+    <dt><code>Success</code></dt>
+    <dd><code>'success'</code></dd>
+    <dt><code>Error</code></dt>
+    <dd><code>'error'</code></dd>
+    <dt><code>Warning</code></dt>
+    <dd><code>'warning'</code></dd>
+    <dt><code>Information</code></dt>
+    <dd><code>'information'</code></dd>
+    <dt><code>Help</code></dt>
+    <dd><code>'help'</code></dd>
+</dl>
 
 ### `TbxMatSeverityFontIconService` (abstract class)
 
 Extends `TbxMatFontIconService<TbxMatSeverityLevel>` and implements `TbxMatSeverityResolver`.
 
-| Member / Method | Returns               | Description                                                       |
-| --------------- | --------------------- | ----------------------------------------------------------------- |
-| `iconType`      | `TbxMatIconType`      | Icon type discriminant — always `TbxMatIconType.Font` (inherited) |
-| `fontSet`       | `string`              | The font set identifier (inherited from `TbxMatFontIconService`)  |
-| `default()`     | `string`              | Resolves the Default severity icon ligature from the registry     |
-| `success()`     | `string`              | Resolves the Success severity icon ligature from the registry     |
-| `error()`       | `string`              | Resolves the Error severity icon ligature from the registry       |
-| `warning()`     | `string`              | Resolves the Warning severity icon ligature from the registry     |
-| `information()` | `string`              | Resolves the Information severity icon ligature from the registry |
-| `help()`        | `string`              | Resolves the Help severity icon ligature from the registry        |
-| `resolve(name)` | `string \| undefined` | Resolves a `TbxMatSeverityLevel` to its registered ligature       |
+<dl>
+    <dt><code>iconType</code> (<code>TbxMatIconType</code>)</dt>
+    <dd>Icon type discriminant — always <code>TbxMatIconType.Font</code> (inherited).</dd>
+    <dt><code>fontSet</code> (<code>string</code>)</dt>
+    <dd>The font set identifier (inherited from <code>TbxMatFontIconService</code>).</dd>
+    <dt><code>default()</code> (<code>string</code>)</dt>
+    <dd>Resolves the Default severity icon ligature from the registry.</dd>
+    <dt><code>success()</code> (<code>string</code>)</dt>
+    <dd>Resolves the Success severity icon ligature from the registry.</dd>
+    <dt><code>error()</code> (<code>string</code>)</dt>
+    <dd>Resolves the Error severity icon ligature from the registry.</dd>
+    <dt><code>warning()</code> (<code>string</code>)</dt>
+    <dd>Resolves the Warning severity icon ligature from the registry.</dd>
+    <dt><code>information()</code> (<code>string</code>)</dt>
+    <dd>Resolves the Information severity icon ligature from the registry.</dd>
+    <dt><code>help()</code> (<code>string</code>)</dt>
+    <dd>Resolves the Help severity icon ligature from the registry.</dd>
+    <dt><code>resolve(name)</code> (<code>string | undefined</code>)</dt>
+    <dd>Resolves a <code>TbxMatSeverityLevel</code> to its registered ligature.</dd>
+</dl>
 
 ### `TbxMatSeveritySvgIconService` (abstract class)
 
 Extends `TbxMatSvgIconService<TbxMatSeverityLevel>` and implements `TbxMatSeverityResolver`.
 
-| Member / Method | Returns               | Description                                                       |
-| --------------- | --------------------- | ----------------------------------------------------------------- |
-| `iconType`      | `TbxMatIconType`      | Icon type discriminant — always `TbxMatIconType.Svg` (inherited)  |
-| `default()`     | `string`              | Resolves the Default severity icon name from the registry         |
-| `success()`     | `string`              | Resolves the Success severity icon name from the registry         |
-| `error()`       | `string`              | Resolves the Error severity icon name from the registry           |
-| `warning()`     | `string`              | Resolves the Warning severity icon name from the registry         |
-| `information()` | `string`              | Resolves the Information severity icon name from the registry     |
-| `help()`        | `string`              | Resolves the Help severity icon name from the registry            |
-| `resolve(name)` | `string \| undefined` | Resolves a `TbxMatSeverityLevel` to its registered `svgIcon` name |
+<dl>
+    <dt><code>iconType</code> (<code>TbxMatIconType</code>)</dt>
+    <dd>Icon type discriminant — always <code>TbxMatIconType.Svg</code> (inherited).</dd>
+    <dt><code>default()</code> (<code>string</code>)</dt>
+    <dd>Resolves the Default severity icon name from the registry.</dd>
+    <dt><code>success()</code> (<code>string</code>)</dt>
+    <dd>Resolves the Success severity icon name from the registry.</dd>
+    <dt><code>error()</code> (<code>string</code>)</dt>
+    <dd>Resolves the Error severity icon name from the registry.</dd>
+    <dt><code>warning()</code> (<code>string</code>)</dt>
+    <dd>Resolves the Warning severity icon name from the registry.</dd>
+    <dt><code>information()</code> (<code>string</code>)</dt>
+    <dd>Resolves the Information severity icon name from the registry.</dd>
+    <dt><code>help()</code> (<code>string</code>)</dt>
+    <dd>Resolves the Help severity icon name from the registry.</dd>
+    <dt><code>resolve(name)</code> (<code>string | undefined</code>)</dt>
+    <dd>Resolves a <code>TbxMatSeverityLevel</code> to its registered <code>svgIcon</code> name.</dd>
+</dl>
 
 ### Default icon sets
 
-| Export                                    | Type                                  | Description                                                            |
-| ----------------------------------------- | ------------------------------------- | ---------------------------------------------------------------------- |
-| `TBX_MAT_SEVERITY_DEFAULT_SVG_ICONS`      | `Record<TbxMatSeverityLevel, string>` | Inline SVG markup per level; `Default` reuses the `Information` markup |
-| `TBX_MAT_SEVERITY_DEFAULT_FONT_LIGATURES` | `Record<TbxMatSeverityLevel, string>` | Material Symbols ligature names; `Default` = `info_i`                  |
+<dl>
+    <dt><code>TBX_MAT_SEVERITY_DEFAULT_SVG_ICONS</code> (<code>Record&lt;TbxMatSeverityLevel, string&gt;</code>)</dt>
+    <dd>Inline SVG markup per level; <code>Default</code> ships a distinct shield-style icon.</dd>
+    <dt><code>TBX_MAT_SEVERITY_DEFAULT_FONT_LIGATURES</code> (<code>Record&lt;TbxMatSeverityLevel, string&gt;</code>)</dt>
+    <dd><a href="https://fonts.google.com/icons">Material Symbols ↗</a> ligature names; <code>Default</code> = <code>info</code>.</dd>
+</dl>
 
 ### Theme configuration
 
-| Export                            | Kind                                        | Description                                                                                       |
-| --------------------------------- | ------------------------------------------- | ------------------------------------------------------------------------------------------------- |
-| `TbxMatSeverityThemeConfig`       | interface                                   | Runtime config shape: `{ invert: boolean; applyToRoot?: boolean }` (defaults `applyToRoot: true`) |
-| `TBX_MAT_SEVERITY_THEME_CONFIG`   | `InjectionToken<TbxMatSeverityThemeConfig>` | Root-provided token; default factory returns `{ invert: false }`                                  |
-| `provideTbxMatSeverityTheme`      | function                                    | Returns `EnvironmentProviders`; supplies the config value and toggles the root class              |
-| `TBX_MAT_SEVERITY_INVERTED_CLASS` | `string`                                    | CSS class literal (`'tbx-mat-severity-inverted'`) shared by the SCSS partial and the provider     |
+<dl>
+    <dt><code>TbxMatSeverityThemeConfig</code> (interface)</dt>
+    <dd>Runtime config shape: <code>{ invert: boolean; applyToRoot?: boolean }</code>. Default: <code>applyToRoot: true</code>.</dd>
+    <dt><code>TBX_MAT_SEVERITY_THEME_CONFIG</code> (<code>InjectionToken&lt;TbxMatSeverityThemeConfig&gt;</code>)</dt>
+    <dd>Root-provided token; default factory returns <code>{ invert: false }</code>.</dd>
+    <dt><code>provideTbxMatSeverityTheme</code> (function)</dt>
+    <dd>Returns <code>EnvironmentProviders</code>; supplies the config value and toggles the root class.</dd>
+    <dt><code>TBX_MAT_SEVERITY_INVERTED_CLASS</code> (<code>string</code>)</dt>
+    <dd>CSS class literal (<code>'tbx-mat-severity-inverted'</code>) shared by the SCSS partial and the provider.</dd>
+</dl>
 
 ### Shared SCSS partial
 
 Path: `@teqbench/tbx-mat-severity-theme/styles/tbx-mat-severity-theme`
 
-| Symbol                                  | Kind    | Description                                                                          |
-| --------------------------------------- | ------- | ------------------------------------------------------------------------------------ |
-| `--tbx-mat-severity-<level>-background` | CSS var | Background color token per severity level                                            |
-| `--tbx-mat-severity-<level>-text`       | CSS var | Text color token per severity level                                                  |
-| `.tbx-mat-severity-inverted`            | Class   | Swaps the background/text pair per level when applied to any ancestor                |
-| `tbx-mat-severity-theme($prefix)`       | Mixin   | Emits `--<prefix>-<level>-<background\|text>` aliases referencing the neutral tokens |
+<dl>
+    <dt><code>--tbx-mat-severity-&lt;level&gt;-background</code> (CSS var)</dt>
+    <dd>Background color token per severity level.</dd>
+    <dt><code>--tbx-mat-severity-&lt;level&gt;-text</code> (CSS var)</dt>
+    <dd>Text color token per severity level.</dd>
+    <dt><code>.tbx-mat-severity-inverted</code> (Class)</dt>
+    <dd>Swaps the background/text pair per level when applied to any ancestor.</dd>
+    <dt><code>tbx-mat-severity-theme($prefix)</code> (Mixin)</dt>
+    <dd>Emits <code>--&lt;prefix&gt;-&lt;level&gt;-&lt;background|text&gt;</code> aliases referencing the neutral tokens.</dd>
+</dl>
 
 ## Accessibility
 
@@ -326,12 +365,14 @@ The package ships no UI surface. Consumers that render `<mat-icon>` with the val
 
 ## Compatibility
 
+<!-- Kept as a pipe table until teqbench/.github#22 lands; the centralized CI README version-check regex extracts versions from this exact shape. -->
+
 | Dependency                                                             | Version  |
 | ---------------------------------------------------------------------- | -------- |
 | [Angular ↗](https://angular.dev)                                       | ^21.0.0  |
 | [Angular Material ↗](https://material.angular.dev)                     | ^21.0.0  |
 | [Angular Platform Browser ↗](https://angular.dev/api/platform-browser) | ^21.0.0  |
-| [@teqbench/tbx-mat-icons ↗](https://github.com/teqbench/tbx-mat-icons) | ^4.0.0   |
+| [@teqbench/tbx-mat-icons ↗](https://github.com/teqbench/tbx-mat-icons) | ^4.2.0   |
 | [TypeScript ↗](https://www.typescriptlang.org)                         | ~5.9.0   |
 | [Node.js ↗](https://nodejs.org)                                        | >=24.0.0 |
 
@@ -353,11 +394,11 @@ This package follows [Semantic Versioning ↗](https://semver.org/). Versions an
 
 ## Contributing
 
-Contributions are welcome. See [CONTRIBUTING.md](CONTRIBUTING.md) for local setup, [GitHub Packages ↗](https://github.com/orgs/teqbench/packages) authentication, branch conventions, commit format, and the PR workflow.
+Contributions are welcome. See the [contributing guide ↗](https://github.com/teqbench/.github/blob/main/CONTRIBUTING.md) for local setup, [GitHub Packages ↗](https://github.com/orgs/teqbench/packages) authentication, branch conventions, commit format, and the PR workflow.
 
 ## Security
 
-See [SECURITY.md](SECURITY.md) for the supported-version policy and how to report a vulnerability privately.
+See the [security policy ↗](https://github.com/teqbench/.github/blob/main/SECURITY.md) for the supported-version policy and how to report a vulnerability privately.
 
 ## Feedback
 
