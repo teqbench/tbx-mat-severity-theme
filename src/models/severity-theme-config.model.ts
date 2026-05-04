@@ -30,7 +30,7 @@
  * @category Models
  * @displayName Severity Theme Config
  * @order 1
- * @since 1.0.0
+ * @since 7.2.0
  * @related TBX_MAT_SEVERITY_THEME_CONFIG
  * @related provideTbxMatSeverityTheme
  * @related TBX_MAT_SEVERITY_INVERTED_CLASS

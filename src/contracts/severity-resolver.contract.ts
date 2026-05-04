@@ -32,7 +32,7 @@
  * @category Interface
  * @displayName Severity Resolver Contract
  * @order 1
- * @since 1.0.0
+ * @since 7.2.0
  * @related TbxMatSeverityFontIconService
  * @related TbxMatSeveritySvgIconService
  * @related TbxMatSeverityLevel

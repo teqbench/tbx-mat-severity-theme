@@ -38,7 +38,7 @@ import { TbxMatSeverityLevel } from '../enums/severity-level.enum';
  * @category Constants
  * @displayName Severity Inverted Class
  * @order 3
- * @since 1.0.0
+ * @since 7.2.0
  * @related provideTbxMatSeverityTheme
  * @related TBX_MAT_SEVERITY_THEME_CONFIG
  *
@@ -111,7 +111,7 @@ const SVG_HELP =
  * @category Constants
  * @displayName Default Severity SVG Icons
  * @order 1
- * @since 1.0.0
+ * @since 7.2.0
  * @related TbxMatSeverityLevel
  * @related TbxMatSeveritySvgIconService
  *
@@ -165,7 +165,7 @@ export const TBX_MAT_SEVERITY_DEFAULT_SVG_ICONS: Record<TbxMatSeverityLevel, str
  * @category Constants
  * @displayName Default Severity Font Ligatures
  * @order 2
- * @since 1.0.0
+ * @since 7.2.0
  * @related TbxMatSeverityLevel
  * @related TbxMatSeverityFontIconService
  *
