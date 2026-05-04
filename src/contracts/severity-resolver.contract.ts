@@ -29,7 +29,7 @@
  * }
  * ```
  *
- * @category Contract
+ * @category Interface
  * @displayName Severity Resolver Contract
  * @order 1
  * @since 1.0.0
