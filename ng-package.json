@@ -6,6 +6,11 @@
   },
   "assets": [
     {
+      "input": ".",
+      "glob": "CHANGELOG.md",
+      "output": "."
+    },
+    {
       "input": "docs",
       "glob": "*.{md,yml}",
       "output": "docs"
