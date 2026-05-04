@@ -1,7 +1,8 @@
 # Dependency Compatibility Check — `dep-compat-check.yml`
 
 **Full name:** Dependency Compatibility Check
-**File:** `.github/workflows/dep-compat-check.yml`
+**Local caller:** `.github/workflows/dep-compat-check.yml`
+**Upstream reusable:** `teqbench/.github/.github/workflows/dep-compat-check.yml`
 
 ---
 
@@ -13,10 +14,12 @@ Tracks pinned dependencies that are waiting for a new version — for example, w
 
 ## Triggers
 
-| Event               | Schedule           |
-| ------------------- | ------------------ |
-| `schedule`          | Daily at 12:00 UTC |
-| `workflow_dispatch` | Manual trigger     |
+<dl>
+    <dt><code>schedule</code></dt>
+    <dd>Daily at 12:00 UTC.</dd>
+    <dt><code>workflow_dispatch</code></dt>
+    <dd>Manual trigger.</dd>
+</dl>
 
 ---
 
@@ -33,9 +36,10 @@ Only needs write access to issues for posting status comments.
 
 ## Secrets Used
 
-| Secret         | Purpose                     |
-| -------------- | --------------------------- |
-| `GITHUB_TOKEN` | Default token for API calls |
+<dl>
+    <dt><code>GITHUB_TOKEN</code></dt>
+    <dd>Default token for API calls.</dd>
+</dl>
 
 No app token needed — this workflow only reads the [npm ↗](https://www.npmjs.com) registry and writes issue comments.
 
@@ -60,20 +64,27 @@ also-track: @angular/cli, @angular/compiler
 -->
 ```
 
-| Field         | Required | Description                                                       |
-| ------------- | -------- | ----------------------------------------------------------------- |
-| `package`     | Yes      | [npm ↗](https://www.npmjs.com) package name to check              |
-| `resolution`  | No       | Resolution condition (see below). Defaults to `manual`.           |
-| `description` | No       | Human-readable context for status reports                         |
-| `also-track`  | No       | Comma-separated list of additional packages to show in the report |
+<dl>
+    <dt><code>package</code> (required)</dt>
+    <dd><a href="https://www.npmjs.com">npm ↗</a> package name to check.</dd>
+    <dt><code>resolution</code></dt>
+    <dd>Resolution condition (see below). Default: <code>manual</code>.</dd>
+    <dt><code>description</code></dt>
+    <dd>Human-readable context for status reports.</dd>
+    <dt><code>also-track</code></dt>
+    <dd>Comma-separated list of additional packages to show in the report.</dd>
+</dl>
 
 ### Resolution Conditions
 
-| Condition               | Behavior                                                              |
-| ----------------------- | --------------------------------------------------------------------- |
-| `semver-gte:<version>`  | Resolved when latest version >= target. Status: Monitoring or Blocked |
-| `semver-major:<number>` | Resolved when latest major >= target. Status: Resolved or Blocked     |
-| `manual` (or omitted)   | Always shows as Action Needed — requires manual evaluation            |
+<dl>
+    <dt><code>semver-gte:&lt;version&gt;</code></dt>
+    <dd>Resolved when latest version &gt;= target. Status: Monitoring or Blocked.</dd>
+    <dt><code>semver-major:&lt;number&gt;</code></dt>
+    <dd>Resolved when latest major &gt;= target. Status: Resolved or Blocked.</dd>
+    <dt><code>manual</code> (or omitted)</dt>
+    <dd>Always shows as Action Needed — requires manual evaluation.</dd>
+</dl>
 
 ### Evaluation Flow
 
@@ -85,26 +96,30 @@ also-track: @angular/cli, @angular/compiler
 
 ### Status Labels
 
-| Label         | Meaning                                        |
-| ------------- | ---------------------------------------------- |
-| Resolved      | Resolution condition met — ready to integrate  |
-| Blocked       | Waiting for a version that meets the condition |
-| Action needed | Manual resolution — requires human evaluation  |
-| Monitoring    | Condition met but keeping an eye on it         |
+<dl>
+    <dt>Resolved</dt>
+    <dd>Resolution condition met — ready to integrate.</dd>
+    <dt>Blocked</dt>
+    <dd>Waiting for a version that meets the condition.</dd>
+    <dt>Action needed</dt>
+    <dd>Manual resolution — requires human evaluation.</dd>
+    <dt>Monitoring</dt>
+    <dd>Condition met but keeping an eye on it.</dd>
+</dl>
 
 ---
 
 ## Example Status Comment
 
-```
+```markdown
 ## Dependency Compatibility — 2026-03-22
 
 1/2 resolved. 1 item(s) still need attention.
 
-| Item | Status | Detail |
-|---|---|---|
+| Item                    | Status   | Detail                                                              |
+| ----------------------- | -------- | ------------------------------------------------------------------- |
 | Angular 22 upgrade (#3) | Resolved | `@angular/core`: 22.0.1 — **v22 available!** Ready for integration. |
-| ESLint flat config (#5) | Blocked | `eslint`: 9.39.2 (need >= 10.0.0 ✗) |
+| ESLint flat config (#5) | Blocked  | `eslint`: 9.39.2 (need >= 10.0.0 ✗)                                 |
 ```
 
 ---

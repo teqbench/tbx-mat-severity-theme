@@ -5,7 +5,7 @@
 - name: Two abstract strategy bases
   summary: TbxMatSeverityFontIconService and TbxMatSeveritySvgIconService implement the contract for font and SVG rendering respectively.
 - name: Default icon sets shipped
-  summary: TBX_MAT_SEVERITY_DEFAULT_SVG_ICONS (CC0 inline SVG markup) and TBX_MAT_SEVERITY_DEFAULT_FONT_LIGATURES (Material Symbols ligature names) give consumers turnkey defaults.
+  summary: TBX_MAT_SEVERITY_DEFAULT_SVG_ICONS (CC0 inline SVG markup) and TBX_MAT_SEVERITY_DEFAULT_FONT_LIGATURES ([Material Symbols ↗](https://fonts.google.com/icons) ligature names) give consumers turnkey defaults.
 - name: Shared SCSS color tokens
   summary: Neutral --tbx-mat-severity-<level>-<background|text> custom properties defined once, with a prefix-remap mixin for package-local aliases.
 - name: Pure-CSS invert support

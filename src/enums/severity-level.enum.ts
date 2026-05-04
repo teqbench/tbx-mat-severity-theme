@@ -21,7 +21,7 @@
  * @category Enums
  * @displayName Severity Level
  * @order 2
- * @since 1.0.0
+ * @since 7.2.0
  * @related TbxMatSeverityResolver
  * @related TbxMatSeverityFontIconService
  * @related TbxMatSeveritySvgIconService

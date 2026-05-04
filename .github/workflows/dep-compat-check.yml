@@ -1,7 +1,7 @@
 # Thin caller — delegates to the org-wide reusable Dep Compat Check workflow.
 # See: https://github.com/teqbench/.github/.github/workflows/dep-compat-check.yml
 #
-# UPDATE: Set epic-issue-number to the tracking issue number for this repo.
+# Tracking epic: https://github.com/teqbench/tbx-mat-severity-theme/issues/46
 
 name: Dependency Compatibility Check
 
@@ -14,5 +14,5 @@ jobs:
   check:
     uses: teqbench/.github/.github/workflows/dep-compat-check.yml@main
     with:
-      epic-issue-number: 1
+      epic-issue-number: 46
     secrets: inherit

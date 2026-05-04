@@ -60,7 +60,7 @@ import { TBX_MAT_SEVERITY_THEME_CONFIG } from '../tokens/severity-theme-config.t
  * @category Providers
  * @displayName Provide Severity Theme
  * @order 1
- * @since 1.0.0
+ * @since 7.2.0
  * @related TbxMatSeverityThemeConfig
  * @related TBX_MAT_SEVERITY_THEME_CONFIG
  * @related TBX_MAT_SEVERITY_INVERTED_CLASS
