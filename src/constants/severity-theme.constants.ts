@@ -51,7 +51,7 @@ export const TBX_MAT_SEVERITY_INVERTED_CLASS = 'tbx-mat-severity-inverted';
 // Consumers extending TbxMatSeveritySvgIconService register these via
 // MatIconRegistry, or override per level with their own markup.
 //
-// Icons sourced from the "Web 5" collection on SVG Repo.
+// Icons sourced from the "Small Flat Vectors" collection on SVG Repo.
 // Source: https://www.svgrepo.com/collection/small-flat-vectors/
 // License: CC0 (no attribution required)
 
