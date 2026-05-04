@@ -331,7 +331,7 @@ The package ships no UI surface. Consumers that render `<mat-icon>` with the val
 | [Angular ↗](https://angular.dev)                                       | ^21.0.0  |
 | [Angular Material ↗](https://material.angular.dev)                     | ^21.0.0  |
 | [Angular Platform Browser ↗](https://angular.dev/api/platform-browser) | ^21.0.0  |
-| [@teqbench/tbx-mat-icons ↗](https://github.com/teqbench/tbx-mat-icons) | ^4.0.0   |
+| [@teqbench/tbx-mat-icons ↗](https://github.com/teqbench/tbx-mat-icons) | ^4.2.0   |
 | [TypeScript ↗](https://www.typescriptlang.org)                         | ~5.9.0   |
 | [Node.js ↗](https://nodejs.org)                                        | >=24.0.0 |
 
