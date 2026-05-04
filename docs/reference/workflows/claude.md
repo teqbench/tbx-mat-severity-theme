@@ -214,7 +214,7 @@ Both the GitHub Action and the [Claude Code ↗](https://github.com/anthropics/c
 
 In any issue or PR comment:
 
-```
+```text
 @claude implement this feature based on the issue description
 @claude fix the bug described above
 @claude review this PR

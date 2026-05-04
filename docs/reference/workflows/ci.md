@@ -207,7 +207,7 @@ All badge steps run with `if: always()` so badges update even on failure. The `s
 
 Badges are rendered by [Shields.io ↗](https://shields.io/badges/endpoint-badge) endpoint badges. The URL format is:
 
-```
+```text
 https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/{GIST_OWNER}/{GIST_ID}/raw/{REPO_NAME}-{BRANCH}-{badge}.json
 ```
 

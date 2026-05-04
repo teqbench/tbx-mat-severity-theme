@@ -110,15 +110,15 @@ also-track: @angular/cli, @angular/compiler
 
 ## Example Status Comment
 
-```
+```markdown
 ## Dependency Compatibility — 2026-03-22
 
 1/2 resolved. 1 item(s) still need attention.
 
-| Item | Status | Detail |
-|---|---|---|
+| Item                    | Status   | Detail                                                              |
+| ----------------------- | -------- | ------------------------------------------------------------------- |
 | Angular 22 upgrade (#3) | Resolved | `@angular/core`: 22.0.1 — **v22 available!** Ready for integration. |
-| ESLint flat config (#5) | Blocked | `eslint`: 9.39.2 (need >= 10.0.0 ✗) |
+| ESLint flat config (#5) | Blocked  | `eslint`: 9.39.2 (need >= 10.0.0 ✗)                                 |
 ```
 
 ---
