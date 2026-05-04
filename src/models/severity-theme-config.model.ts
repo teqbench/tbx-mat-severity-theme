@@ -45,7 +45,7 @@ export interface TbxMatSeverityThemeConfig {
      *
      * @public
      */
-    invert: boolean;
+    readonly invert: boolean;
 
     /**
      * Whether to apply the inverted class to the document root automatically
@@ -60,5 +60,5 @@ export interface TbxMatSeverityThemeConfig {
      *
      * @public
      */
-    applyToRoot?: boolean;
+    readonly applyToRoot?: boolean;
 }
