@@ -80,6 +80,7 @@ import type { TbxMatSeverityResolver } from '../contracts/severity-resolver.cont
  * ```
  *
  * @category Services
+ * @category Contract
  * @displayName Severity Font Icon Service
  * @order 3
  * @since 1.0.0

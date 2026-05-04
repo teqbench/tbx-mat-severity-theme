@@ -76,6 +76,7 @@ import type { TbxMatSeverityResolver } from '../contracts/severity-resolver.cont
  * ```
  *
  * @category Services
+ * @category Contract
  * @displayName Severity SVG Icon Service
  * @order 4
  * @since 1.0.0
