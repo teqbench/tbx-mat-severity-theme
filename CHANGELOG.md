@@ -1,5 +1,14 @@
 # Changelog
 
+## [8.0.4](https://github.com/teqbench/tbx-mat-severity-theme/compare/v8.0.3...v8.0.4) (2026-05-10)
+
+
+### Bug Fixes
+
+* **ci:** pin reusable workflows to [@v2](https://github.com/v2).9.3 ([be44e14](https://github.com/teqbench/tbx-mat-severity-theme/commit/be44e147cb0cc2a1a5199f0e56b56c1c7a1fdbe8)), closes [#28](https://github.com/teqbench/tbx-mat-severity-theme/issues/28)
+* **deps:** bump tbx-mat-icons peerDep to ^4.2.2 ([16ea5d4](https://github.com/teqbench/tbx-mat-severity-theme/commit/16ea5d4a55796d15d95f5f7072ef73c327107c95))
+* **deps:** bump tbx-mat-icons peerDep to ^4.2.2 ([1b67941](https://github.com/teqbench/tbx-mat-severity-theme/commit/1b67941cc5c6b7555ff47d11d8f5b0e6062997c6)), closes [#28](https://github.com/teqbench/tbx-mat-severity-theme/issues/28)
+
 ## [8.0.3](https://github.com/teqbench/tbx-mat-severity-theme/compare/v8.0.2...v8.0.3) (2026-05-09)
 
 
