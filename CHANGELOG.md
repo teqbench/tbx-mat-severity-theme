@@ -1,5 +1,13 @@
 # Changelog
 
+## [8.0.5](https://github.com/teqbench/tbx-mat-severity-theme/compare/v8.0.4...v8.0.5) (2026-05-11)
+
+
+### Bug Fixes
+
+* **changelog:** strip broken at-mention autolinks from history ([3fa2ef6](https://github.com/teqbench/tbx-mat-severity-theme/commit/3fa2ef6e88c725881b4ba5f4e252831ad0ebb727))
+* **changelog:** strip broken at-mention autolinks from history ([409861d](https://github.com/teqbench/tbx-mat-severity-theme/commit/409861d7f0bb738ccf66c3893ea2edf4181fbc0c))
+
 ## [8.0.4](https://github.com/teqbench/tbx-mat-severity-theme/compare/v8.0.3...v8.0.4) (2026-05-10)
 
 
