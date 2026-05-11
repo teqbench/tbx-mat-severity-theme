@@ -1,6 +1,6 @@
 {
   "name": "@teqbench/tbx-mat-severity-theme",
-  "version": "8.0.4",
+  "version": "8.0.5",
   "description": "Foundation package providing six-level severity theming (default, success, error, warning, information, help) for @teqbench Material packages. Includes TbxMatSeverityLevel, abstract font-icon and SVG-icon base classes, default font ligature names and SVG icon set, shared SCSS theme tokens with invert support, and a DI config token.",
   "type": "module",
   "exports": {
