@@ -38,7 +38,7 @@
     "@analogjs/vite-plugin-angular": "^2.3.1",
     "@analogjs/vitest-angular": "^2.3.1",
     "@angular/build": "^21.2.3",
-    "@angular/compiler": "^21.2.6",
+    "@angular/compiler": "^22.0.0",
     "@angular/compiler-cli": "^21.2.6",
     "@angular/platform-browser": "^21.2.6",
     "@types/node": "~24.13.0",
